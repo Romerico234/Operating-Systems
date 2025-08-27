@@ -518,10 +518,213 @@ One of the OS’s most important jobs is to manage **I/O devices**, hiding their
   - The OS provides a **general device-driver interface** so applications don’t need to know device details  
   - Each device has a specific **driver** that translates generic requests into hardware-specific commands  
 
-## Protection and Security
+## Protection and Security  
 
-## Kernel Data Strictires
+Every OS must prevent chaos: processes competing for resources, users interfering with each other, and attackers trying to exploit the system. 
+
+**Protection** is any mechanism for **controlling access** to resources. It defines _who can do what_.  
+
+**Security** is broader: it is the **defense of the system** against internal and external threats.  
+- Covers denial-of-service attacks, viruses, worms, identity theft, theft of service, etc  
+- Security builds **on top of protection**. If the OS doesn’t enforce proper access rules, then attackers can easily exploit it  
+
+### How Systems Enforce Protection & Security  
+To enforce these policies, the OS first needs to **distinguish between users**:  
+
+- **User IDs, Security IDs:** Each user has a unique identifier associated with all processes and files owned by that user. This determines what actions a user can perform (read/write/execute).  
+
+- **Group ID:** Allows set of users to be defined and permissions can then be granted to a group rather than just an individual.  
+
+- **Privilege Escalation:** Allows a user or process to temporarily gain more rights. This must be tightly controlled.  
+
+## Kernel Data Structures  
+
+Again, the OS kernel is the one program that is always running. It remains in memory at all times and orchestrates everything else on the system. **Data structures are the backbone** of it. 
+
+### Linked Lists  
+The kernel needs to maintain dynamic collections of objects (like processes, file descriptors, or memory blocks). Linked lists are lightweight and flexible for this purpose.  
+
+- **Singly Linked List**: Each node has data and a pointer to the next node. Used for simple, fast append/iterate operations.  
+  - In the kernel, it’s used for simple queues and tracking free memory blocks
+
+  <p align="center">
+    <img src="../images/012.png" alt="Singly Linked List" width="450"/>
+  </p>  
+
+- **Doubly Linked List**: Each node points both forward and backward making insertions and deletions faster when traversing in both directions. Used extensively in Linux for process lists and device queues. 
+  - In the kernel, it’s used for process lists and device I/O queues
+
+  <p align="center">
+    <img src="../images/013.png" alt="Doubly Linked List" width="450"/>
+  </p>  
+
+- **Circular Linked List**: Last node points back to the first, forming a cycle. 
+  - In the kernel, it's used for **round-robin scheduling** where the CPU cycles through processes in a loop.  
+
+  <p align="center">
+    <img src="../images/014.png" alt="Circular Linked List" width="450"/>
+  </p>  
+
+### Trees  
+Some operations require fast searching, insertion, and deletion. Trees provide a more structured way to organize data.  
+
+- **Binary Search Tree (BST)**: Ensures left child ≤ parent ≤ right child. Search performance is $O(n)$ in the worst case.  
+
+- **Balanced Binary Search Tree**: Keeps tree height logarithmic, improving search to $O(\log n)$. 
+  - In the kernel, it's used as **red-black trees** for process scheduling and memory region tracking  
+
+  <p align="center">
+    <img src="../images/015.png" alt="Binary Search Tree" width="400"/>
+  </p>  
+
+### Hashing and Bitmaps  
+For even faster lookups, the kernel often uses **hash tables**.  
+
+- **Hash Map**: A **hash function** maps a key to a bucket index. Perfect for quick access to inodes in a file system or process IDs.  
+  - In the kernel, it's used for process ID lookups, inode caching in file systems, network connection tracking
+  <p align="center">
+    <img src="../images/016.png" alt="Hash Map" width="450"/>
+  </p>  
+
+- **Bitmap**: An array of bits where each bit tracks the status of a resource (0 = free, 1 = used). It is Extremely efficient for memory allocation and free-space tracking in disks.
+  - In the kernel, it’s used for free-space management in file systems and page allocation tracking  
 
 ---
+# Computing Environments  
 
-# Computing Environments
+The OS must adapt to the context in which computing happens as different environments have different requirements. Below are the main models.  
+
+
+## Traditional Computing  
+Early systems were **stand-alone general-purpose machines** e.g. desktops, minicomputers, mainframes.  
+- The OS’s job was simple: keep the CPU and devices busy, protect memory, and manage files.  
+- But as networking became ubiquitous, the “stand-alone” model blurred. Today, even a home PC is tied to larger ecosystems.  
+
+Key OS adaptations here:  
+- **Portals**: Provides web access/interfaces to internal systems. 
+- **Network Computers (Thin Clients)**: Lightweight devices that offload computation to servers.   
+- **Wireless Networking**: The OS integrates drivers, TCP/IP stacks, and mobility support so laptops can interconnect between networks.  
+- **Security (Firewalls)**: The OS acts as a _gatekeeper_ inspecting and filtering traffic to protect the local system from the Internet.  
+
+## Mobile Computing  
+Smartphones and tablets are not just “small laptops.” They reshaped OS responsibilities:  
+- They require **sensor integration** (GPS, accelerometer, gyroscope) so apps can leverage location, orientation, and movement.  
+- They demand **battery-aware scheduling and memory management** as energy is the scarcest resource.  
+- They introduced **new app models** (augmented reality, real-time navigation) that depend on real-time access to both hardware and the network.  
+
+## Distributed Computing  
+A distributed system is a **collection of separate, possibly heterogeneous, systems**  networked together. The OS here must extend beyond a single machine to support **network transparency** and processes should communicate and share resources as if they were local.  
+
+The key to making this work is the **network** usually built on TCP/IP. Depending on scale, networks fall into different categories:  
+- **LAN (Local Area Network):** Connects systems in the same building or campus  
+- **WAN (Wide Area Network):** Connects systems across cities, countries, or globally (the Internet)  
+- **MAN (Metropolitan Area Network):** Intermediate scale e.g. across a city  
+- **PAN (Personal Area Network):** Very small scale e.g. Bluetooth devices around a person  
+
+On top of this, a **Network Operating System** extends OS services across multiple machines:  
+- Provides a **communication scheme** so processes on different nodes can exchange messages reliably  
+- Creates the **illusion of a single unified system**, even though it is physically distributed  
+
+### Client–Server Computing  
+This model reshaped traditional computing by replacing “dumb terminals” with intelligent devices that could request services from more powerful central machines.  
+- **Clients:** User-facing systems that run applications but rely on servers for heavy lifting.  
+- **Servers:** Centralized systems that respond to client requests, often optimized for performance, reliability, and scalability.  
+
+Two dominant patterns exist:  
+1. **Compute-Server System:** Provides an interface to a clients to request services (i.e., database).  
+2. **File-Server Systems:** Provides an interface to clients to read/write/store data. The server manages the filesystem.  
+
+**Example:** A corporate network where employees use laptops (clients) to query a shared database (compute server) and store documents on a central file server.
+
+<p align="center">
+  <img src="../images/017.png" alt="Client-Server Computing" width="450"/>
+</p>  
+
+### Peer-to-Peer (P2P) Computing  
+P2P does not distinguish clients and servers – each can act as client or server depending on the situation. 
+- All nodes are considered **peers**
+- To join, a node must connect to the P2P network and advertise its presence via:  
+  - A **central lookup service**   
+  - Or a fully decentralized **discovery protocol**, where peers broadcast and respond to service requests dynamically  
+
+- The OS here must support **dynamic discovery** of peers, handle **decentralized communication**, and enforce **fair resource sharing**  
+- The challenge is consistency: multiple copies of data may exist, so the OS (or middleware above it) must ensure synchronization and trust  
+
+Examples:  
+- File-sharing (Napster, Gnutella)  
+- Communication (Skype, VoIP)  
+- Even modern blockchain systems adopt P2P principles.  
+
+<p align="center">
+  <img src="../images/018.png" alt="Peer-to-Peer Computing" width="450"/>
+</p>  
+
+## Virtualization  
+
+Up to now, we’ve treated the OS as a single manager that arbitrates between **users, processes, and hardware** on *one* machine. But modern computing often requires the ability to run **multiple operating systems on the same physical hardware** as if each had the machine to itself. This is the essence of **virtualization**.  
+
+### Emulation vs Virtualization  
+- **Emulation**: When the guest OS is built for a different CPU architecture than the host, every instruction must slowly be translated for cross-platform compatibility.  
+- **Virtualization**: When the guest OS is compiled for the same CPU architecture as the host. Here, the OS doesn’t need to translate every instruction and instead, a **Virtual Machine Manager** or better known as a **hypervisor** sits between hardware and guests, intercepting privileged operations and mapping them safely to real hardware.  
+
+In other words, emulation is about *pretending* different hardware exists, while virtualization is about *slicing up* the real hardware so multiple OSes can share it efficiently.  
+
+### Use Cases  
+- Run multiple OSes on a single laptop/desktop  
+  - Example: Apple laptop with **Mac OS X as host**, Windows running as a **guest**  
+- Developers can build and test apps for multiple OSes without needing multiple physical systems  
+- Run different OS configurations on the same hardware for validation.  
+- Execute and manage many isolated compute environments efficiently within data centers
+
+### Visual Model
+
+<p align="center">
+  <img src="../images/019.png" alt="Hypervisors" width="450"/>
+</p>  
+
+- (a) **Traditional System**: Hardware → Kernel → Processes  
+- (b) **Virtualized System**: Hardware → VMM → Multiple Guest Kernels → Processes  
+
+One guest cannot interfere with another but they can run side by side.  
+
+## Cloud Computing  
+
+Cloud computing is the **logical extension of virtualization**. If virtualization lets a single machine host multiple OSes, cloud computing scales that idea to thousands of machines, pooling compute, storage, and networking resources and exposing them “as a service” over the Internet.  
+
+- **Public Cloud**: Open to anyone willing to pay (e.g. AWS, Azure, GCP)  
+- **Private Cloud**: Built and managed internally for a single organization  
+- **Hybrid Cloud**: Mix of public and private resources, often for cost/security trade-offs  
+
+Cloud providers deliver resources in service layers:  
+- **IaaS (Infrastructure as a Service):** Raw servers or compute/storage/networking available over the Internet (e.g. Amazon EC2)  
+- **PaaS (Platform as a Service):** Software stack ready for application use via the Internet like managed databases or app servers  
+- **SaaS (Software as a Service):** Fully managed applications delivered over the web (e.g. Google Docs, Office 365)  
+
+The OS role here is no longer tied to a single machine — it is to **coordinate VMs and containers at scale**.  
+
+### Cloud System Architecture  
+
+<p align="center">
+  <img src="../images/020.png" alt="Cloud Architecture Diagram" width="500"/>
+</p>  
+
+1. **Internet:** Users send requests (start a VM, store a file, etc)  
+2. **Firewall:** Filters traffic, blocks malicious requests  
+3. **Load Balancer:** Spreads requests across many servers so no single one gets overloaded  
+4. **Cloud Customer Interface:** Where the user interacts (AWS console, API, web portal)  
+5. **Cloud Management Services:** Interprets commands and manages resources (VMs, storage)  
+6. **Servers & Virtual Machines:** Actual compute power; VMs run applications  
+7. **Storage:** Persistent data storage, accessible from anywhere  
+
+## Real-Time Embedded Systems  
+
+The most common computers in the world are not desktops or servers but **embedded systems**. They are the small computers built into cars, appliances, medical devices, and industrial controllers.    
+- Vary considerably and **special-purpose** 
+- Limited purpose OS and resource-constrained (limited memory, CPU)  
+- Many run on a **Real-Time OS** which is a stripped-down OS designed for strict timing guarantees  
+
+### Real-Time Constraints  
+A real-time OS is only considered *correct* if tasks are completed **within strict timing limits**:  
+- **Hard Real-Time:** Missing a deadline = system failure (e.g. pacemaker delivering a heartbeat signal)  
+- **Soft Real-Time:** Occasional deadline misses are tolerable but undesirable (e.g. video playback dropping frames)  
+
