@@ -8,7 +8,28 @@ Operating systems provide the **environment** for running programs and serving u
 Almost all operating systems provide a user interface.  
 - **Command-Line Interface (CLI)**   
 - **Graphical User Interface (GUI)** 
-- **Batch Interface** – Users submit jobs (programs + data) to be executed without direct interaction.  
+- **Batch** – Users submit jobs (programs + data) to be executed without direct interaction.  
+
+#### Example: Batch File
+This batch script automates basic network diagnostics. Instead of typing commands interactively, the system executes them in sequence.  
+
+`run.bat`
+```bat
+@ECHO OFF
+REM View network connection details
+IPCONFIG /all
+
+REM Check if geeksforgeeks.com is reachable
+PING geeksforgeeks.com
+
+REM Run a traceroute to geeksforgeeks.com
+TRACERT geeksforgeeks.com
+
+PAUSE
+```
+- `IPCONFIG /all` → displays full network configuration
+- `PING geeksforgeeks.com` → checks if the host responds
+- `TRACERT geeksforgeeks.com` → traces the path packets take
 
 ### Program Execution
 The OS must support running programs:
