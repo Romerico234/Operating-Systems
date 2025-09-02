@@ -399,3 +399,226 @@ Not technically part of the operating system, but typically bundled with it, sin
 - Examples: web browsers, office suites, media players.  
 
 Though not system-level, their seamless integration with OS utilities means many users blur the line between **“system programs”** and **“applications.”**
+
+---
+
+# Operating System Design and Implementation
+
+## Design Considerations
+Designing an operating system is not a completely solvable problem. The internal structure of OSes can vary widely, but all designs begin by defining clear goals and specifications. Hardware choice and system type (desktop, server, embedded) strongly influence the design.
+
+## Goals of Design
+There are two kinds of goals.  
+- **User goals** emphasize convenience: the OS should be reliable, secure, easy to learn, and fast.  
+- **System goals** emphasize engineering efficiency: the OS should be easy to design, implement, and maintain, while remaining flexible and error-free.  
+
+## Policy vs. Mechanism
+A key design principle is the separation of **policy** from **mechanism**.  
+- **Policy** answers *what will be done* (e.g. which process gets CPU time)  
+- **Mechanism** answers *how it will be done* (e.g. the routine that performs a context switch)  
+
+Separating the two allows flexibility: policies can be changed without rewriting the mechanisms. For example, different scheduling policies can reuse the same low-level context-switch implementation. This separation turns OS design into a disciplined task of software engineering.
+
+## Implementation
+Operating systems have historically evolved in the languages used for implementation. Early systems were written entirely in **assembly language**, later replaced by system programming languages such as Algol or PL/1, and now most OSes are written largely in **C and C++**.  
+
+Modern OSes are usually a mix: the lowest-level routines remain in assembly, the kernel core is in C, and utilities or extensions may use C++, Python, shell scripts, or PERL. High-level languages make the OS easier to **port** across hardware platforms, though sometimes at the cost of speed. **Emulation** further extends portability by allowing an OS to run on hardware for which it was not originally designed.
+
+---
+
+# Operating System Structure
+
+## Structuring Approaches
+Because an OS is a large and complex program, different structures have been explored:  
+- **Simple Structure** (MS-DOS)
+- **Monolithic** 
+- **Layered**   
+- **Microkernel** 
+- **Modular**
+- **Hybrid**
+- **Mobile** (iOS/Android) 
+
+### Example: MS-DOS
+
+MS-DOS aimed to maximize functionality within very limited hardware resources. It was not divided into modules, and interfaces were intermixed with functionality. This gave efficiency on small machines but poor separation of concerns, making it hard to maintain or extend.
+
+<p align="center">
+  <img src="../images/032.png" alt="MS-DOS" width="400"/>
+</p>
+
+### Example: Traditional UNIX  
+Early UNIX, though more advanced than MS-DOS, was still constrained by hardware. It was organized into just two parts:  
+- **System programs:** Compilers, shells, libraries  
+- **Kernel:** Consists of everything below the system-call interface and above the physical hardware e.g. file system, CPU scheduling, memory management, device drivers  
+
+<p align="center">
+  <img src="../images/033.png" alt="Traditional UNIX" width="450"/>
+</p>
+
+This design was still **monolithic** (all kernel services in one large program), but more modular than MS-DOS. It provided better abstraction and flexibility, though not as strictly layered as later OS designs.
+
+### Example: Layered Approach  
+In the layered approach, the OS is divided into multiple levels, each building on the services of the layer below. 
+
+<p align="center">
+  <img src="../images/034.png" alt="Layered OS" width="400"/>
+</p>
+
+- **Layer 0 (hardware):** base of the system  
+- **Highest layer (user interface):** where users interact  
+- Each layer hides complexity and exposes only specific services to the layer above.  
+
+This modular design improves maintainability and reliability since errors or changes in one layer don’t directly affect others.
+
+### Example: Microkernel Structure  
+
+<p align="center">
+  <img src="../images/035.png" alt="Microkernel OS" width="500"/>
+</p>
+
+The microkernel moves as much from the kernel space into the **user space** and leaving only essentials (CPU scheduling, memory management, interprocess communication) in the kernel.  
+- **Communication:** takes place through **message passing**. Instead of calling functions directly, processes exchange structured messages via the microkernel’s IPC (Interprocess Communication) 
+- **Benefits:** easier to extend, portable across hardware, more reliable and secure (less kernel code)  
+- **Drawback:** performance overhead due to frequent user–kernel communication 
+
+### Example: Modular Approach
+Modern operating systems often use **loadable kernel modules** which combine flexibility with efficiency.  
+- Modules use object-oriented approach
+- Each **core component** is separate  
+- Components communicate through well-defined **interfaces**  
+- Modules can be **loaded or unloaded** into the kernel as needed  
+- This resembles the **layered approach**, but is more flexible  
+
+Examples: **Linux, Solaris**.  
+
+<p align="center">
+  <img src="../images/036.png" alt="Solaris Modular Approach" width="450"/>
+</p>
+
+In Solaris, the kernel supports loadable modules for:
+- Scheduling classes  
+- File systems  
+- Device drivers  
+- Loadable system calls  
+- Executable formats  
+- STREAMS (for network communication)  
+
+### Example: Hybrid Systems
+Most modern operating systems are **hybrid**, meaning they don’t follow a single model strictly (monolithic, microkernel, layered) but combine elements of each.  
+
+- **Linux, Solaris**: Kernels run in one address space (monolithic), but support loadable modules for flexibility  
+- **Windows**: Mostly monolithic, but uses microkernel concepts for some subsystems  
+- **Mac OS X**: Layered + hybrid design  
+  - GUI: **Aqua**  
+  - Application frameworks: **Cocoa, Java, QuickTime, BSD services**  
+  - Kernel: Built on **Mach microkernel** + **BSD Unix**, with dynamically loadable **kernel extensions**.  
+
+<p align="center">
+  <img src="../images/037.png" alt="Mac OS X Structure" width="500"/>
+</p>
+
+### Example: iOS
+Apple’s **mobile OS** extends Mac OS X but adds mobile-specific functionality.  
+- Runs on ARM processors, not Intel  
+- Core OS derived from **Mac OS X kernel**  
+- Framework layers:  
+  - **Cocoa Touch:** API for app development (Objective-C, Swift)  
+  - **Media Services:** Graphics, audio, video  
+  - **Core Services:** Databases, iCloud, networking  
+  - **Core OS:** Kernel, device drivers, security  
+
+<p align="center">
+  <img src="../images/038.png" alt="iOS Layers" width="300"/>
+</p>
+
+### Example: Android
+Developed by the **Open Handset Alliance** (mostly Google), Android is Linux-based but customized for mobile.  
+
+- Kernel: based on **Linux**, with modifications for power management and device drivers  
+- Runtime: Originally used **Dalvik VM** (optimized for mobile), now replaced by **ART (Android Runtime)**  
+- Apps: written in Java (compiled to bytecode, translated for execution on the VM)  
+- Libraries: include **SQLite** (database), **OpenGL** (graphics), **WebKit** (browser), multimedia, and more  
+
+**Architecture:**  
+
+<p align="center">
+  <img src="../images/039.png" alt="Android Architecture" width="450"/>
+</p>
+
+- **Application Framework**: APIs exposed to developers  
+- **Libraries**: SQLite, WebKit, OpenGL, Media Framework, libc  
+- **Runtime**: Core libraries + Dalvik/ART VM  
+- **Linux Kernel**: process management, memory management, drivers  
+
+---
+
+# Operating System Debugging, Performance, and System Boot
+Modern operating systems not only provide services, but they must also be **debugged, optimized, generated for specific hardware, and correctly bootstrapped**.
+
+## Debugging
+Debugging is the process of finding and fixing errors (bugs). Operating systems provide several mechanisms to aid debugging:  
+- **Log files** record error information  
+- **Core dumps** capture the memory of a failed process
+- **Crash dumps** capture kernel memory on system failure   
+- **Trace listings** record sequences of events and activities for later analysis  
+- **Profiling** is periodic sampling of the instruction pointer to reveal performance bottlenecks
+
+> Kernighan’s Law: *“Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.”*
+
+## Performance Tuning
+Operating systems must also optimize performance by identifying and removing bottlenecks.  
+- Tools like **top** (Unix/Linux) or **Windows Task Manager** show CPU, memory, and I/O usage  
+- These metrics allow administrators to adjust resource allocation or reconfigure workloads
+
+## DTrace
+**DTrace** is a dynamic tracing framework used in Solaris, FreeBSD, and Mac OS X. It enables **live instrumentation** of production systems, allowing developers and administrators to observe the system’s real behavior without halting it.  
+- **How it works:** **Probes** fire when code is executed within a **provider**, capturing state data and sending it to **consumers** of those probers.
+
+### Example: Tracing System Calls
+
+<p align="center">
+  <img src="../images/040.png" alt="DTrace Example: Probes across user and kernel" width="400"/>
+</p>
+
+In the first figure below, DTrace is used to trace the function `XEventsQueued`. Each probe records when execution passes through specific kernel and library functions (`ioctl`, `get`, `set_active_fd`, etc.). This trace shows the full path of a system call from a user-level library (libc) into the kernel and back.  
+
+### Example: Measuring CPU Time
+
+<p align="center">
+  <img src="../images/041.png" alt="DTrace Example: Process CPU Time" width="500"/>
+</p>
+
+In the second figure, a DTrace script records how long each process with a specific user ID (101) spends **on the CPU**.  
+- The `sched:::on-cpu` probe fires when a process starts running, storing a timestamp 
+- The `sched:::off-cpu` probe fires when the process is descheduled, computing the elapsed time  
+
+The output (shown on the right) lists processes (e.g., `gnome-panel`, `Xorg`, `java`) and the accumulated nanoseconds they spent on the CPU.  
+
+## Operating System Generation
+An OS must be **configured for the specific hardware** it runs on. A tool called **SYSGEN** gathers hardware details (CPU, memory, devices).  
+- Based on this, the system builds a kernel tailored to the machine  
+- Custom kernels are more efficient than general-purpose kernels
+
+## System Boot
+Bootstrapping is the process of starting an OS when the computer powers on.  
+
+1. **Power-On**  
+   - Computer is powered on, and execution begins at a fixed memory location.
+
+2. **Firmware Initialization**  
+   - **ROM/EEPROM firmware** (BIOS or UEFI) runs initial hardware checks and contains a small **bootstrap loader** that initializes hardware and locates the kernel. The loader then loads the kernel (or a secondary loader if multi-stage) into memory.
+
+3. **Bootstrap Loader**  
+   - Initializes essential hardware.  
+   - Locates and loads the kernel (or a secondary loader if multi-stage).
+
+4. **Multi-Stage Boot (if used)**  
+   - Modern systems may use a multi-stage boot process:
+        - **Boot block** (stored at a fixed ROM or disk location) loads a more capable secondary loader  
+        - Example: **GRUB** (GNU GRUB) allows selecting kernels, versions, or boot parameters
+
+5. **Kernel Loading anf Initialization**    
+   - The chosen kernel is loaded into memory from disk.
+   - Kernel initializes the system (sets up memory management, device drivers, system processes, etc) and transitions to the **running state**.
+
+
