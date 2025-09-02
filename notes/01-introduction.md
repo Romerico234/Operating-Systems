@@ -71,9 +71,11 @@ Everything else is either:
 When a computer powers on, the operating system isn’t running yet. Instead:
 
 - A **bootstrap program** is loaded (at power-up or reboot)  
-    - Stored in **firmware** (ROM or EPROM)  
+    - Stored in **firmware** i.e. ROM (Read-Only Memory) or EPROM  
     - Initializes system hardware and loads the OS kernel into memory  
     - OS begins execution and takes control  
+    
+> The bootstrap program is stored in **non-volatile read-only memory**, meaning it cannot be altered during normal operation and protects it from malware.  
 
 ---
 
@@ -261,6 +263,7 @@ Most systems start with a **single general-purpose processor (CPU)**, but modern
     1. **Increased throughput** – more tasks processed in parallel  
     2. **Economy of scale** – adding processors is cheaper than building independent machines  
     3. **Improved reliability** – even if one CPU fails, others can continue (fault tolerance)  
+  > *Note,* even if we have a multiprocessing architecture, we can't multitask if some tasks are blocking.
 
 ### Types of Multiprocessing  
 1. **Asymmetric Multiprocessing (AMP)** – each processor is assigned a specific role (e.g., one master, others as workers).
@@ -307,10 +310,14 @@ Early computers were very inefficient. A single user’s program could not keep 
 
 **Multiprogramming** solved this by organizing multiple jobs (code and data) in memory at once.  
 - A **subset of total jobs** is always kept in memory  
-- The OS uses **job scheduling** to select which job to run on the CPU  
-- If the running job has to wait for I/O, the OS **switches to another job**, ensuring the CPU is always doing useful work  
+- The OS uses a **job scheduler** to select which job to run on the CPU (based on some priority)  
+- If the running job has to wait for I/O, the OS switches to another job, ensuring the CPU is always doing useful work. Othewrise, it will only perform one job at a time.  
 
 This system was efficient because it maximized CPU utilization, but it was still a **batch-oriented approach**. Users submitted jobs and waited for output later, without direct interaction.
+
+<p align="center">
+  <img src="../images/046.png" alt="Multiprogramming" width="500"/>
+</p>  
 
 **Example:** 
 Suppose a system has three jobs loaded into memory:  

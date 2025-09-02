@@ -435,10 +435,15 @@ There are two kinds of goals.
 
 ## Policy vs. Mechanism
 A key design principle is the separation of **policy** from **mechanism**.  
-- **Policy** answers *what will be done* (e.g. which process gets CPU time)  
-- **Mechanism** answers *how it will be done* (e.g. the routine that performs a context switch)  
+- **Policy** answers *what will be done* 
+- **Mechanism** answers *how it will be done* 
 
 Separating the two allows flexibility: policies can be changed without rewriting the mechanisms. For example, different scheduling policies can reuse the same low-level context-switch implementation. This separation turns OS design into a disciplined task of software engineering.
+
+### Example: CPU Scheduling
+- **Policy**: Decide which process should run next (e.g., Round-Robin, Priority Scheduling)  
+- **Mechanism**: The actual context-switching routine that saves the state of one process and restores another  
+- Changing the scheduling policy does not require rewriting the context-switching mechanism
 
 ## Implementation
 Operating systems have historically evolved in the languages used for implementation. Early systems were written entirely in **assembly language**, later replaced by system programming languages such as Algol or PL/1, and now most OSes are written largely in **C and C++**.  
