@@ -42,7 +42,7 @@ Three Distinctions:
 ## What is the main purpose of system calls in an operating system, and how do programs (user-level) utilize them to request services from the kernel?
 System calls are the programming interface through which applications request services from the operating system. They provide a bridge between user programs and OS services and are typically written in high-level languages (C, C++).
 
-Most programs access system calls indirectly through APIs rather than invoking raw system calls. Each system call is assigned a number. The System Call interface maintains an indexed table mapping numbers to system call routines. The system call interface invokes the intended system call in the OS Kernel and returns the status of the system call and any return values.
+Most programs access system calls indirectly through APIs rather than invoking raw system calls. Under the hood, each system call is assigned a unique number. The System Call interface maintains an indexed table mapping numbers to system call routines. The system call interface invokes the intended system call in the OS Kernel and returns the status of the system call and any return values.
 
 ## How do system goals differ from user goals in operating system design, and can you provide an example of a user goal in this context?
 - User goals emphasize convenience: the OS should be reliable, secure, easy to learn, and fast.
