@@ -75,7 +75,7 @@ When a computer powers on, the operating system isn’t running yet. Instead:
     - Initializes system hardware and loads the OS kernel into memory  
     - OS begins execution and takes control  
     
-> The bootstrap program is stored in **non-volatile read-only memory**, meaning it cannot be altered during normal operation and protects it from malware.  
+> The bootstrap program is stored in **non-volatile, read-only memory**, meaning it cannot be altered during normal operation and protects it from malware.  
 
 ---
 

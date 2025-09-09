@@ -643,7 +643,7 @@ Bootstrapping is the process of starting an OS when the computer powers on.
         - **Boot block** (stored at a fixed ROM or disk location) loads a more capable secondary loader  
         - Example: **GRUB** (GNU GRUB) allows selecting kernels, versions, or boot parameters
 
-5. **Kernel Loading anf Initialization**    
+5. **Kernel Loading and Initialization**    
    - The chosen kernel is loaded into memory from disk.
    - Kernel initializes the system (sets up memory management, device drivers, system processes, etc) and transitions to the **running state**.
 
