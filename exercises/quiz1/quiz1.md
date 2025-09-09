@@ -63,6 +63,8 @@ An OS must be configured for the specific hardware it runs on. A tool called SYS
 Use a multi-stage boot with a loader like GRUB that “allows selecting kernels, versions, or boot parameters.” The bootstrap loader “initializes essential hardware” and locates and loads the kernel into memory; then the kernel initializes and runs.
 
 ## What is the main advantage of the layered approach to system design? What are the disadvantages of using the layered approach?
+In the layered approach, the OS is divided into multiple levels, each building on the services of the layer below. 
+
 Main Advantage:
 - Modularity & isolation: clear interfaces make the system easier to maintain and more reliable; changes/errors in one layer don’t propagate
 
