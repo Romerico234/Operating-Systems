@@ -1,7 +1,7 @@
 # Quiz 1
 
 ## What is the primary purpose of an interrupt in an operating system, and how does it impact the normal execution of processes?
-Interrupts are the OS’s way of reacting to events rather than constantly checking devices. When an interrupt occurs, the CPU temporarily pauses the currrent process, saves its state, and transfers control to the appropriate interrupt service routine through the interrupt vector (a table storing the addresses of all service routines). 
+Interrupts are the OS’s way of reacting to events rather than constantly checking devices. When an interrupt occurs (caused by the device controller), the CPU temporarily pauses the currrent process, saves its state, and transfers control to the appropriate interrupt service routine through the interrupt vector (a table storing the addresses of all service routines). 
 
 In addition to hardware-generated interrupts (from devices), the OS also handles software-generated interrupts, called traps or exceptions. These occur when errors happen (e.g., divide by zero) or when a program explicitly requests OS services.
 

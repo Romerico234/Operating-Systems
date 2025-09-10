@@ -176,7 +176,6 @@ A **parent process** creates one or more **child processes**, forming a **tree o
 - Parent and child may execute **concurrently**  
 - Parent may also **wait** until children terminate  
 
-
 ### Example: A Tree of Processes in Linux
 <p align="center">
   <img src="../images/055.png" alt="Tree of Processes in Linux" width="450"/>
@@ -184,25 +183,27 @@ A **parent process** creates one or more **child processes**, forming a **tree o
 
 - `systemd` (**system daemon**) is the parent process of all the processes.
 
----
----
----
-# TBD
-
 ## Address Space
 A child’s memory space can be:  
-1. **Duplicate of the parent** (same code/data).  
-2. **New program loaded** into its own space.  
+1. **Duplicate of the parent** (same code/data) 
+2. **New program loaded** into its own space  
 
 ### UNIX Examples
-- `fork()` → creates a child process.  
-- `exec()` → replaces the process’s memory with a new program.  
-
 <p align="center">
-  <img src="../images/fork_exec_diagram.png" alt="Fork and Exec Flow" width="500"/>
+  <img src="../images/056.png" alt="Fork and Exec Flow" width="500"/>
 </p>
 
-## C Program Example (Linux)
+- `fork()` → system call creates a new (child) process that duplicates the current process; it returns $1$ for the parent, $0$ for the child, or $-1$ for an error
+
+- `exec()` → system call used after a `fork()` to replace the process’s memory with a new program  
+
+> `fork()` and `exec()` are UNIX system calls and do not exist directly in Windows. Instead, Windows provides the **`CreateProcess()`** API, which combines both steps into a single call.  
+
+#### Example: C Program Forking Separate Process (Linux)
+- `fork()` creates a child process.  
+  - If the process is the **parent** after the `fork()`, it returns **1**.  
+  - If the process is the **child** after the `fork()`, it returns **0**.  
+  - If the call fails, it returns **-1**.  
 
 ```c
 #include <sys/types.h>
@@ -212,14 +213,15 @@ A child’s memory space can be:
 int main() {
     pid_t pid = fork();
 
-    if (pid < 0) { 
+    if (pid < 0) { // Error
         fprintf(stderr, "Fork Failed"); 
         return 1;
     }
-    else if (pid == 0) { // Child
+    else if (pid == 0) { // Child Process
         execlp("/bin/ls", "ls", NULL);
     }
-    else { // Parent
+    else { // Parent Process
+        /* will wait for the child to complete */
         wait(NULL);
         printf("Child Complete\n");
     }
@@ -227,3 +229,164 @@ int main() {
 }
 ```
 
+#### Example: Creating a Child Process via Windows API
+```c
+#include <stdio.h>
+#include <windows.h>
+
+int main(VOID)
+{
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    /* allocate memory */
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
+
+    /* create child process */
+    if (!CreateProcess(NULL,               /* use command line */
+        "C:\\WINDOWS\\system32\\mspaint.exe", /* command */
+        NULL,                              /* don't inherit process handle */
+        NULL,                              /* don't inherit thread handle */
+        FALSE,                             /* disable handle inheritance */
+        0,                                 /* no creation flags */
+        NULL,                              /* use parent's environment block */
+        NULL,                              /* use parent's existing directory */
+        &si,
+        &pi))
+    {
+        fprintf(stderr, "Create Process Failed");
+        return -1;
+    }
+
+    /* parent will wait for the child to complete */
+    WaitForSingleObject(pi.hProcess, INFINITE);
+    printf("Child Complete");
+
+    /* close handles */
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+}
+```
+
+#### Example: Multiple `fork()` calls
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main()
+{
+    fork();
+    fork();
+    fork();
+    printf("COSC 439 \n PID = %d\n", getpid());
+    return 0;
+}
+```
+
+```css
+                               P
+                 ┌─────────────┴─────────────┐
+                 1                           0
+           ┌─────┴─────┐               ┌─────┴─────┐
+          11           10             01           00
+        ┌─┴─┐        ┌─┴─┐          ┌─┴─┐        ┌─┴─┐
+      111 110      101 100        011 010      001 000   ← 8 leaves (8 prints)
+
+```
+The output appears 8 times because `printf` is executed after the third `fork()`, so there are \(2^3 = 8\) concurrent processes at that point.
+
+> In general, after $x$ sequential `fork()` calls, the number of processes AFTER the $x$-th fork is \(2^x\) (assuming all `fork()` calls are successful).
+
+
+#### Example: Using exec() to run another program
+
+**ex1.c**:
+```cpp
+#include <iostream>
+#include <unistd.h>
+#include <stdlib.h>
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    printf("PID of ex1.c = %d\n", getpid());
+    char *args[] = {"COSC", "439", NULL};
+    execv("./ex2", args); // This call replaces this process with the ex2 program if it succeeds. So the code below is actually never reached.
+    printf("Back to ex1.c");
+    return 0;
+}
+```
+
+**ex2.c**
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+    printf("we are in ex2.c\n");
+    printf("PID of ex2.c = %d\n", getpid());
+    return 0;
+}
+```
+
+#### Example: Logical AND with `fork()`
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(void) {
+    if (fork() && fork()) {
+        fork();
+    }
+    printf("Hello\n");
+    return 0;
+}
+```
+
+**Result:**
+
+#### Example: Logical OR with `fork()`
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(void) {
+    if (fork() || fork()) {
+        fork();
+    }
+    printf("Hello\n");
+    return 0;
+}
+```
+
+**Result:**
+
+#### Example: Logical AND + OR with `fork()`
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(void) {
+    if (fork() && fork()) {         
+        if (fork() || fork()) {     
+            fork();                 
+        }
+    }
+    printf("Hello\n");
+    return 0;
+}
+```
+
+**Result:**
+
+---
+
+# Process Termination
