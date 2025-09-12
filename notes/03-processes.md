@@ -349,7 +349,7 @@ int main(void) {
 }
 ```
 
-**Result:**
+**Result:** Prints "Hello" 4 times.
 
 #### Example: Logical OR with `fork()`
 ```c
@@ -366,7 +366,7 @@ int main(void) {
 }
 ```
 
-**Result:**
+**Result:** Prints "Hello" 5 times.
 
 #### Example: Logical AND + OR with `fork()`
 ```c
@@ -385,8 +385,211 @@ int main(void) {
 }
 ```
 
-**Result:**
+**Result:** Prints "Hello" 7 times.
 
 ---
 
 # Process Termination
+A process executes its last statement and asks the OS to delete it with **`exit()`**.  
+- The **exit status** is made available to the parent (collected via **`wait()`**)  
+- The OS **deallocates** the process’s resources (memory, open files, etc.)
+
+A **parent** may terminate a child using **`abort()`** when:  
+- The child **exceeds allocated resources** 
+- The child’s **task is no longer needed**  
+- The **parent is exiting** and the OS does not allow the child to continue 
+
+**Cascading Termination:** When a parent dies, **all descendants** (children, grandchildren, etc), terminnation is initiated by the OS. 
+
+---
+
+# Interprocess Communication (IPC)
+Processes can be **independent** or **cooperating**.  
+- **Independent Process** **cannot** affect or be affected by other processes in the system.  
+- **Cooperating Process** **can** affect or be affected by other processes.  
+  - Any process that **shares data** with others is a cooperating process.
+
+**Example:** Cooperating processes are those whose execution can affect each other because they share resources or data. Suppose process $P1$ is writing the number `100` to a file while process $P2$ needs to read from that same file. If only one process is allowed access at a time, $P2$ must wait until $P1$ releases the file; this enforced condition ensures correct synchronization. Without such a condition, both processes may access the file concurrently: $P1$ writes `100` while $P2$ checks the file to see if `100` exists. Even though they run in parallel and potentially interfere with each other’s operations, they are still considered **cooperating processes** because the behavior of one directly influences the other.
+
+## Why Cooperate?
+- **Information sharing:** Shared files/resources need concurrent access  
+- **Computation speedup:** Tasks can be brokwn down to subtasks and run under multiple processes  
+- **Modularity:** Divide system functions into separate processes/threads for organization and manageability  
+- **Convenience:** Enables multitasking 
+
+## Interprocess Communication (IPC) Models
+Two ways cooperating processes **exchange data and information**:  
+- **Shared Memory:** A region of memory that is **shared** by the cooperating processes; they **read/write** data in that region.  
+- **Message Passing:** Processes **communicate by exchanging messages**.
+
+### Communications Models Diagrams
+<p align="center">
+  <img src="../images/057.png" alt="Message passing vs shared memory diagrams" width="500"/>
+</p>
+
+- **(a) Message passing:** processes place messages into a **kernel-managed message queue**; the OS mediates the transfer  
+- **(b) Shared memory:** the OS maps a **shared region** visible to both processes; each **reads/writes** the region directly
+
+## Shared Memory
+
+<p align="center">
+  <img src="../images/058.png" alt="Shared Memory" width="300"/>
+</p>
+
+To enable interprocess communication, processes can establish a **shared memory region**.  
+- This region usually exists within the address space of the process that created it  
+- Other processes must **attach** the shared segment to their own address space before using it  
+
+However, by default, the OS **prevents one process from directly accessing another’s memory**.  
+- Shared memory requires **mutual agreement** between two or more processes to remove this restriction
+
+> The OS provides only the means to set up the shared memory. The responsibility of managing reads/writes falls entirely on the cooperating processes.  
+
+### Major Issue: Synchronization
+- Multiple processes may try to read and write at the same time, leading to **race conditions**.  
+- A proper synchronization mechanism via some algorithm (e.g. semaphores, locks, monitors) must be in place to coordinate access.  
+- Synchronization ensures that processes do not interfere with each other when accessing shared memory.  
+
+## Message Passing
+
+<p align="center">
+  <img src="../images/059.png" alt="Message Passing" width="300"/>
+</p>
+
+**Message Passing** is a mechanism that allows processes to **communicate** and **synchronize** their actions **without sharing the same address space**.  
+- Useful in **distributed environments** where processes run on different computers connected by a **network**  
+- Example: Chat applications using a **client–server model**  
+
+Message passing is supported by two fundamental operations:  
+- `send(message)`  
+- `receive(message)`  
+
+*Note:* The size of a message can be **fixed** or **variable** depending on the system.
+
+### Establishing Communication
+For processes \(P\) and \(Q\) to exchange information, they must:  
+1. **Establish a communication link** between them.  
+2. **Exchange messages** via `send` and `receive`  
+
+The communication link can be implemented in different ways:  
+- **Direct or Indirect** communication  
+- **Synchronous or Asynchronous** communication  
+- **Automatic or Explicit Buffering**  
+
+### Direct Communication
+In **direct communication**, processes must explicitly **name each other**:  
+- `send(P, message)` → send message to process \(P\)  
+- `receive(Q, message)` → receive message from process \(Q\)  
+
+**Issue:** If process identifiers change (like a process terminates and restarts with a new PID), **all references must be updated**. This makes direct communication less flexible and harder to maintain (and leads to indirect communication).  
+
+### Indirect Communication
+In **indirect communication**, processes do not name each other directly. Instead, they communicate via **mailboxes (ports)**:  
+- Each mailbox has a **unique ID**  
+- Processes can send/receive messages only if they **share a mailbox**  
+
+**Operations:**
+- Create a new mailbox (port)  
+- Send and receive messages through the mailbox  
+- Destroy a mailbox  
+
+**Primitives:**
+- `send(A, message)` → send a message to mailbox \(A\)  
+- `receive(A, message)` → receive a message from mailbox \(A\)  
+
+### Synchronization
+Message passing may be either **blocking (synchronous)** or **non-blocking (asynchronous)**:  
+
+- **Blocking Send:** Sender waits until the message is received 
+- **Blocking Receive:** Receiver waits until a message arrives  
+
+- **Non-blocking Send:** Sender continues execution without waiting  
+- **Non-blocking Receive:** Receiver either gets:  
+  - A valid message, or  
+  - A null/empty message if nothing is available
+
+Blocking operations create a **synchronous system** (tight coordination), while non-blocking enables **asynchronous communication** (looser coupling).  
+
+### Buffering
+Messages exchanged between processes are stored in **temporary queues** associated with the communication link. This is known as **buffering**.  
+
+Buffering can be implemented in three ways:  
+1. **Zero Capacity**:  
+   - No queue; sender must wait until receiver is ready  
+   - Pure synchronization, no storage  
+2. **Bounded Capacity**:  
+   - Queue has finite length \(n\)  
+   - Sender must wait if the queue is full  
+3. **Unbounded Capacity**:  
+   - Queue has (theoretically) infinite length  
+   - Sender never waits  
+
+---
+
+# Communications in Client–Server Systems
+
+## Sockets
+A **socket** is an **endpoint for communication** between two processes.  
+- Typically used for processes communicating over a **network**  
+- A pair of processes communicating over a network employ a pair of sockets — one for each process.  
+
+A socket is identified by an:  
+- **IP Address** of the host machine  
+- **Port Number** bound to the process  
+
+**How it works:**
+<p align="center">
+  <img src="../images/060.png" alt="Client-Server Socket Communication" width="450"/>
+</p>
+
+1. The **server process** binds to a specific port and **listens** for client requests.  
+2. A **client process** initiates a connection request to the server’s IP:port.  
+3. The server accepts the request, and the socket pair establishes a bidirectional communication channel.  
+
+**Example:**  
+- Web servers listen on port **80** (HTTP) or **443** (HTTPS)  
+- FTP servers use port **21**, Telnet uses port **23**  
+
+> Note, ports **below 1024** are *well-known ports* for standard services. 
+
+**Example Code:** https://www.geeksforgeeks.org/cpp/socket-programming-in-cpp/
+
+## Pipes
+A **pipe** acts as a conduit that allows two processes to communicate. They are like files, but unlike files, which are stored permanently on disk, pipes exist **in memory (RAM)** and vanish when processes finish.  
+
+**Why use pipes?**
+- If two processes are on the same machine (e.g. `localhost` or `0000`), sockets can be used but are **overkill**  
+- Pipes are **faster** because communication stays inside the OS memory  
+
+**Example (Windows CLI):**
+If you run `dir` in Windows:  
+- The **CLI (parent)** forks a child process to execute `dir`  
+- The child process writes results to the (ordinary) pipe  
+- The parent process reads the results back through the pipe and output is displayed to the user  
+
+### Ordinary Pipes
+Ordinary Pipes allow communication in standard producer-consumer style.
+
+<p align="center">
+  <img src="../images/061.png" alt="Ordinary Pipe Example" width="500"/>
+</p>
+
+- Producer writes to one end (the **write-end** of the pipe)
+- Consumer reads from the other end (the **read-end** of the pipe)
+- Unidirectional (one-way communication)  
+- Requires parent-child relationship between communicating processes 
+
+*Note:* In Windows, these are called **anonymous pipes**.  
+
+**Example**: https://cdynamicprogramming.blogspot.com/p/pipes-in-operating-system.html
+
+### Named Pipes
+- More flexible and powerful than ordinary pipes  
+- Support **bidirectional communication**  
+- Do **not** require a parent–child relationship  
+- **Multiple processes** can use the named pipe for communication  
+- Provided on both **UNIX** and **Windows** systems  
+
+*Note:* In Windows, named pipes are created with the `CreateNamedPipe()` API.  
+
+## Remote Procedure Calls (RPC)
