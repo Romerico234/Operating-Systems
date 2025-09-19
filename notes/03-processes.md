@@ -592,4 +592,53 @@ Ordinary Pipes allow communication in standard producer-consumer style.
 
 *Note:* In Windows, named pipes are created with the `CreateNamedPipe()` API.  
 
-## Remote Procedure Calls (RPC)
+## Remote Procedure Calls (RPCs)
+A **Remote Procedure Call (RPC)** is a protocol that one program can use to request a service from another program located in another computer network without having to understand the network's details. It abstracts procedure calls between processes on networked systems (using ports for service differentiation).
+
+### Characteristics
+- RPC is conceptually similar to IPC but works across separate systems.  
+- Communication uses a **message-based communication scheme** rather than direct memory access  
+- Messages in RPC are **structured** and thus are no longer just packets of raw data. They include:  
+  - Identifier of the function to execute  
+  - Parameters for that function  
+  - Return values  
+
+### Stubs and Marshalling
+- **Stub**: A client-side proxy for the actual procedure on the server  
+  - Hides the network details  
+  - Allows the client to invoke a function as if it were local  
+- **Marshalling**: Packaging procedure parameters into a message format suitable for network transmission  
+- **Unmarshalling**: Server-side unpacking of these parameters  
+
+**Process Flow:**  
+1. The client calls the local stub with the procedure name + parameters  
+2. The stub locates the server, marshalls the parameters, and sends a request  
+3. The server-side stub receives the request, unmarshalls the parameters, and executes the procedure  
+4. Results are marshalled back and returned to the client through the same mechanism  
+
+> On Windows, stubs are generated from specifications written in **Microsoft Interface Definition Language (MIDL)**.  
+
+### Example: RPC Execution Model
+
+<p align="center">
+  <img src="../images/062.png" alt="Execution of RPC" width="400"/>
+</p>
+
+1. **Client** invokes a procedure \(X\)  
+2. **Kernel** sends a message to a **matchmaker/daemon** to find the port for that RPC  
+3. Matchmaker replies with the correct port  
+4. Client sends the RPC request to the server at that port  
+5. Server daemon receives the request, unmarshalls parameters, and executes the procedure  
+6. Output is marshalled and returned to the client  
+
+### Pros and Cons
+**Pros:**
+- Transparency: Hides networking details (ports, marshalling)  
+- Simplicity: Procedure call looks identical to a local function call  
+- Portability: Works across heterogeneous systems (Windows, UNIX, etc)  
+
+**Cons**:
+- Latency: Remote calls are much slower than local calls  
+- Partial failures: The client may fail even if the server is running (and vice versa)  
+- Stub generation: Each remote function requires its own stub, which increases complexity  
+
