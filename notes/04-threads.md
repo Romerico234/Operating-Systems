@@ -56,7 +56,7 @@ Key points:
    - No explicit IPC needed for communication  
 
 3. **Cost Effective**  
-   - Les time-consuming to context-switching and creation compared to process creation which is costly due to full memory/resource allocation  
+   - Less time-consuming to context-switching and creation compared to process creation which is costly due to full memory/resource allocation  
 
 4. **Utilization of Multiprocessor Architectures**  
    - Threads can run **in parallel on different CPUs**  
