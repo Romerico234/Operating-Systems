@@ -87,7 +87,7 @@ In a multi-user or networked environment:
 The OS is layered between **hardware** and **user programs**.
 
 <p align="center">
-  <img src="../images/021.png" alt="View of OS Services" width="500"/>
+  <img src="../../images/021.png" alt="View of OS Services" width="500"/>
 </p>
 
 
@@ -125,7 +125,7 @@ A **CLI** (**command interpreter**) allows direct text-based command entry.
 The **Bourne Shell (sh)** is one of the earliest and most influential Unix shells. It provides a **command-line interface** where users type commands that the shell interprets and executes.
 
 <p align="center">
-  <img src="../images/022.png" alt="Bourne Shell Example" width="500"/>
+  <img src="../../images/022.png" alt="Bourne Shell Example" width="500"/>
 </p>
 
 **Example session (screenshot above):**
@@ -155,7 +155,7 @@ Most modern systems now support **both CLI and GUI** to give flexibility.
 #### Example: Mac OS X GUI
 
 <p align="center">
-  <img src="../images/023.png" alt="The Mac OS X GUI" width="400"/>
+  <img src="../../images/023.png" alt="The Mac OS X GUI" width="400"/>
 </p>
 
 Apple’s **older Mac OS X GUI**, known as **“Aqua”**, was one of the first polished, consumer-friendly graphical interfaces on top of a UNIX-based system.  
@@ -190,7 +190,7 @@ System calls are the **programming interface** through which applications reques
 System call sequence to copy a file from **source** to **destination**:
 
 <p align="center">
-  <img src="../images/024.png" alt="Example of System Calls" width="500"/>
+  <img src="../../images/024.png" alt="Example of System Calls" width="500"/>
 </p>
 
 Even a simple operation like copying a file requires multiple system calls for I/O, error handling, and messaging.
@@ -200,7 +200,7 @@ Even a simple operation like copying a file requires multiple system calls for I
 In Unix/Linux, `read()` is a standard API for reading from a file:
 
 <p align="center">
-  <img src="../images/025.png" alt="read() API" width="500"/>
+  <img src="../../images/025.png" alt="read() API" width="500"/>
 </p>
 
 This demonstrates how APIs give a **clean function call**, but underneath it triggers system calls in the OS.
@@ -216,7 +216,7 @@ This demonstrates how APIs give a **clean function call**, but underneath it tri
 ### Example: API – System Call – OS Relationship
 
 <p align="center">
-  <img src="../images/026.png" alt="API, System Call, OS Relationship" width="500"/>
+  <img src="../../images/026.png" alt="API, System Call, OS Relationship" width="500"/>
 </p>
 
 - **User application** calls `open()`  
@@ -236,7 +236,7 @@ _Note:_ Block and stack methods allow flexible parameter sizes
 ### Example: Parameter Passing via Table
 
 <p align="center">
-  <img src="../images/027.png" alt="Parameter Passing via Table" width="500"/>
+  <img src="../../images/027.png" alt="Parameter Passing via Table" width="500"/>
 </p>
 
 - The user program prepares the parameters for a system call (in this case, system call 13) and places them in a block of memory (the table `X`)  
@@ -304,7 +304,7 @@ System calls are grouped by the kind of service the operating system provides.
 ### Example: Windows and Unix System Calls
 
 <p align="center">
-  <img src="../images/028.png" alt="Window and Unix System Calls" width="600"/>
+  <img src="../../images/028.png" alt="Window and Unix System Calls" width="600"/>
 </p>
 
 Windows and Unix provide similar functionality but use different naming conventions.
@@ -312,7 +312,7 @@ Windows and Unix provide similar functionality but use different naming conventi
 ### Example: Standard C Library
 
 <p align="center">
-  <img src="../images/029.png" alt="Standard C Library Example" width="500"/>
+  <img src="../../images/029.png" alt="Standard C Library Example" width="500"/>
 </p>
 
 - Program calls `printf("Greetings");` → looks like a library call  
@@ -326,7 +326,7 @@ Library calls are often **wrappers around system calls**, making them easier for
 MS-DOS shows how a very simple and single-tasking OS handles program execution with minimal use of system calls.
 
 <p align="center">
-  <img src="../images/030.png" alt="MS-DOS Example" width="450"/>
+  <img src="../../images/030.png" alt="MS-DOS Example" width="450"/>
 </p>
 
 - At boot, the shell runs and loads a program into memory  
@@ -337,7 +337,7 @@ MS-DOS shows how a very simple and single-tasking OS handles program execution w
 FreeBSD illustrates how a modern, multitasking OS relies heavily on system calls to manage processes.
 
 <p align="center">
-  <img src="../images/031.png" alt="FreeBSD OS" width="300"/>
+  <img src="../../images/031.png" alt="FreeBSD OS" width="300"/>
 </p>
 
 - User login invokes the chosen shell  
@@ -469,7 +469,7 @@ Because an OS is a large and complex program, different structures have been exp
 MS-DOS aimed to maximize functionality within very limited hardware resources. It was not divided into modules, and interfaces were intermixed with functionality. This gave efficiency on small machines but poor separation of concerns, making it hard to maintain or extend.
 
 <p align="center">
-  <img src="../images/032.png" alt="MS-DOS" width="400"/>
+  <img src="../../images/032.png" alt="MS-DOS" width="400"/>
 </p>
 
 ### Example: Traditional UNIX  
@@ -478,7 +478,7 @@ Early UNIX, though more advanced than MS-DOS, was still constrained by hardware.
 - **Kernel:** Consists of everything below the system-call interface and above the physical hardware e.g. file system, CPU scheduling, memory management, device drivers  
 
 <p align="center">
-  <img src="../images/033.png" alt="Traditional UNIX" width="450"/>
+  <img src="../../images/033.png" alt="Traditional UNIX" width="450"/>
 </p>
 
 This design was still **monolithic** (all kernel services in one large program), but more modular than MS-DOS. It provided better abstraction and flexibility, though not as strictly layered as later OS designs.
@@ -487,7 +487,7 @@ This design was still **monolithic** (all kernel services in one large program),
 In the layered approach, the OS is divided into multiple levels, each building on the services of the layer below. 
 
 <p align="center">
-  <img src="../images/034.png" alt="Layered OS" width="400"/>
+  <img src="../../images/034.png" alt="Layered OS" width="400"/>
 </p>
 
 - **Layer 0 (hardware):** base of the system  
@@ -499,7 +499,7 @@ This modular design improves maintainability and reliability since errors or cha
 ### Example: Microkernel Structure  
 
 <p align="center">
-  <img src="../images/035.png" alt="Microkernel OS" width="500"/>
+  <img src="../../images/035.png" alt="Microkernel OS" width="500"/>
 </p>
 
 The microkernel moves as much from the kernel space into the **user space** and leaving only essentials (CPU scheduling, memory management, interprocess communication) in the kernel.  
@@ -518,7 +518,7 @@ Modern operating systems often use **loadable kernel modules** which combine fle
 Examples: **Linux, Solaris**.  
 
 <p align="center">
-  <img src="../images/036.png" alt="Solaris Modular Approach" width="450"/>
+  <img src="../../images/036.png" alt="Solaris Modular Approach" width="450"/>
 </p>
 
 In Solaris, the kernel supports loadable modules for:
@@ -540,7 +540,7 @@ Most modern operating systems are **hybrid**, meaning they don’t follow a sing
   - Kernel: Built on **Mach microkernel** + **BSD Unix**, with dynamically loadable **kernel extensions**.  
 
 <p align="center">
-  <img src="../images/037.png" alt="Mac OS X Structure" width="500"/>
+  <img src="../../images/037.png" alt="Mac OS X Structure" width="500"/>
 </p>
 
 ### Example: iOS
@@ -554,7 +554,7 @@ Apple’s **mobile OS** extends Mac OS X but adds mobile-specific functionality.
   - **Core OS:** Kernel, device drivers, security  
 
 <p align="center">
-  <img src="../images/038.png" alt="iOS Layers" width="300"/>
+  <img src="../../images/038.png" alt="iOS Layers" width="300"/>
 </p>
 
 ### Example: Android
@@ -568,7 +568,7 @@ Developed by the **Open Handset Alliance** (mostly Google), Android is Linux-bas
 **Architecture:**  
 
 <p align="center">
-  <img src="../images/039.png" alt="Android Architecture" width="450"/>
+  <img src="../../images/039.png" alt="Android Architecture" width="450"/>
 </p>
 
 - **Application Framework**: APIs exposed to developers  
@@ -603,7 +603,7 @@ Operating systems must also optimize performance by identifying and removing bot
 ### Example: Tracing System Calls
 
 <p align="center">
-  <img src="../images/040.png" alt="DTrace Example: Probes across user and kernel" width="400"/>
+  <img src="../../images/040.png" alt="DTrace Example: Probes across user and kernel" width="400"/>
 </p>
 
 In the first figure below, DTrace is used to trace the function `XEventsQueued`. Each probe records when execution passes through specific kernel and library functions (`ioctl`, `get`, `set_active_fd`, etc.). This trace shows the full path of a system call from a user-level library (libc) into the kernel and back.  
@@ -611,7 +611,7 @@ In the first figure below, DTrace is used to trace the function `XEventsQueued`.
 ### Example: Measuring CPU Time
 
 <p align="center">
-  <img src="../images/041.png" alt="DTrace Example: Process CPU Time" width="500"/>
+  <img src="../../images/041.png" alt="DTrace Example: Process CPU Time" width="500"/>
 </p>
 
 In the second figure, a DTrace script records how long each process with a specific user ID (101) spends **on the CPU**.  

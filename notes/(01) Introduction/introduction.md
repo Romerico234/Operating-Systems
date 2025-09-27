@@ -24,7 +24,7 @@ The role of an operating system depends on the point of view:
 
 # Computer System Structure
 <p align="center">
-  <img src="../images/001.png" alt="Four Components of a Computer System" width="450"/>
+  <img src="../../images/001.png" alt="Four Components of a Computer System" width="450"/>
 </p>
 
 A computer system can be viewed as consisting of four major components:
@@ -97,7 +97,7 @@ A computer system is built from several parts connected through a **common bus**
 - Once a device completes its task, it (the controller) signals the CPU via an **interrupt** 
 
 <p align="center">
-  <img src="../images/002.png" alt="Computer System Organization" width="500"/>
+  <img src="../../images/002.png" alt="Computer System Organization" width="500"/>
 </p>
 
 ## Interrupts
@@ -119,7 +119,7 @@ Once identified, the CPU runs the **appropriate handler routine** to deal with t
 ### Interrupt Timeline
 
 <p align="center">
-  <img src="../images/003.png" alt="Interrupt Timeline" width="500"/>
+  <img src="../../images/003.png" alt="Interrupt Timeline" width="500"/>
 </p>
 
 - CPU executes a **user process**  
@@ -200,7 +200,7 @@ Other key concepts:
 The full hierarchy can be visualized as layers, from fastest/smallest to slowest/largest:  
 
 <p align="center">
-  <img src="../images/004.png" alt="Storage-Device Hierarchy" width="500"/>
+  <img src="../../images/004.png" alt="Storage-Device Hierarchy" width="500"/>
 </p>
 
 1. **Registers** (inside CPU – fastest, smallest)  
@@ -242,7 +242,7 @@ In essence, DMA allows the CPU to **delegate** repetitive data transfer work, fr
 ## Von Neumann Model (How a Modern Computer Works)
 
 <p align="center">
-  <img src="../images/005.png" alt="Von Neumann Computer Interaction" width="500"/>
+  <img src="../../images/005.png" alt="Von Neumann Computer Interaction" width="500"/>
 </p>  
 
 Modern computers follow the **von Neumann architecture** where a CPU, memory, and I/O devices interact through well-defined cycles:  
@@ -271,7 +271,7 @@ Most systems start with a **single general-purpose processor (CPU)**, but modern
 2. **Symmetric Multiprocessing (SMP)** – all processors are peers and share the same tasks, improving load balancing.  
 
 <p align="center">
-  <img src="../images/006.png" alt="Symmetric Multiprocessing" width="500"/>
+  <img src="../../images/006.png" alt="Symmetric Multiprocessing" width="500"/>
 </p>  
 
 #### A Dual-Core Design  
@@ -281,7 +281,7 @@ A practical evolution of SMP is the **multicore processor**:
 - This design improves performance and energy efficiency since communication between cores is faster than between separate CPUs  
 
 <p align="center">
-  <img src="../images/007.png" alt="Dual-Core Architecture" width="500"/>
+  <img src="../../images/007.png" alt="Dual-Core Architecture" width="500"/>
 </p>  
 
 ## Clustered Systems  
@@ -298,7 +298,7 @@ The primary motivation for clustering is **high availability**. If one machine f
 - Some clusters use a **distributed lock manager (DLM)** to prevent conflicts when multiple machines try to access the same resource at once  
 
 <p align="center">
-  <img src="../images/008.png" alt="Clustered Systems with SAN" width="500"/>
+  <img src="../../images/008.png" alt="Clustered Systems with SAN" width="500"/>
 </p>  
 
 ---
@@ -316,7 +316,7 @@ Early computers were very inefficient. A single user’s program could not keep 
 This system was efficient because it maximized CPU utilization, but it was still a **batch-oriented approach**. Users submitted jobs and waited for output later, without direct interaction.
 
 <p align="center">
-  <img src="../images/046.png" alt="Multiprogramming" width="500"/>
+  <img src="../../images/046.png" alt="Multiprogramming" width="500"/>
 </p>  
 
 **Example:** 
@@ -351,7 +351,7 @@ The CPU slices time into milliseconds and rapidly switches between these process
 If memory is full, the OS may **swap** the Python script out to disk temporarily while keeping Word and the music player active in memory. **Virtual memory** ensures that all three appear to have sufficient memory, even if physical RAM is smaller.  
 
 <p align="center">
-  <img src="../images/009.png" alt="Memory Layout for Multiprogrammed System" width="400"/>
+  <img src="../../images/009.png" alt="Memory Layout for Multiprogrammed System" width="400"/>
 </p>  
 
 ## Operating System Operations  
@@ -377,7 +377,7 @@ Modern CPUs even support **multi-mode** operations (e.g virtualization with a **
 - This ensures the OS can regain control and schedule fairly
 
 <p align="center">
-  <img src="../images/010.png" alt="User to Kernel Mode Transition" width="500"/>
+  <img src="../../images/010.png" alt="User to Kernel Mode Transition" width="500"/>
 </p>  
 
 ## Process Management  
@@ -503,7 +503,7 @@ Storage is organized in a **hierarchy**, balancing speed, size, and cost.
 Efficient execution depends on **data migration** between storage levels. The CPU can only operate on what’s in its registers, but most data originates from disk. The journey looks like this:  
 
 <p align="center">
-  <img src="../images/011.png" alt="Data Migration from Disk to Register" width="500"/>
+  <img src="../../images/011.png" alt="Data Migration from Disk to Register" width="500"/>
 </p>  
 
 Value `A` loaded from disk → main memory → cache → CPU registers.  
@@ -555,21 +555,21 @@ The kernel needs to maintain dynamic collections of objects (like processes, fil
   - In the kernel, it’s used for simple queues and tracking free memory blocks
 
   <p align="center">
-    <img src="../images/012.png" alt="Singly Linked List" width="450"/>
+    <img src="../../images/012.png" alt="Singly Linked List" width="450"/>
   </p>  
 
 - **Doubly Linked List**: Each node points both forward and backward making insertions and deletions faster when traversing in both directions. Used extensively in Linux for process lists and device queues. 
   - In the kernel, it’s used for process lists and device I/O queues
 
   <p align="center">
-    <img src="../images/013.png" alt="Doubly Linked List" width="450"/>
+    <img src="../../images/013.png" alt="Doubly Linked List" width="450"/>
   </p>  
 
 - **Circular Linked List**: Last node points back to the first, forming a cycle. 
   - In the kernel, it's used for **round-robin scheduling** where the CPU cycles through processes in a loop.  
 
   <p align="center">
-    <img src="../images/014.png" alt="Circular Linked List" width="450"/>
+    <img src="../../images/014.png" alt="Circular Linked List" width="450"/>
   </p>  
 
 ### Trees  
@@ -581,7 +581,7 @@ Some operations require fast searching, insertion, and deletion. Trees provide a
   - In the kernel, it's used as **red-black trees** for process scheduling and memory region tracking  
 
   <p align="center">
-    <img src="../images/015.png" alt="Binary Search Tree" width="400"/>
+    <img src="../../images/015.png" alt="Binary Search Tree" width="400"/>
   </p>  
 
 ### Hashing and Bitmaps  
@@ -590,7 +590,7 @@ For even faster lookups, the kernel often uses **hash tables**.
 - **Hash Map**: A **hash function** maps a key to a bucket index. Perfect for quick access to inodes in a file system or process IDs.  
   - In the kernel, it's used for process ID lookups, inode caching in file systems, network connection tracking
   <p align="center">
-    <img src="../images/016.png" alt="Hash Map" width="450"/>
+    <img src="../../images/016.png" alt="Hash Map" width="450"/>
   </p>  
 
 - **Bitmap**: An array of bits where each bit tracks the status of a resource (0 = free, 1 = used). It is Extremely efficient for memory allocation and free-space tracking in disks.
@@ -644,7 +644,7 @@ Two dominant patterns exist:
 **Example:** A corporate network where employees use laptops (clients) to query a shared database (compute server) and store documents on a central file server.
 
 <p align="center">
-  <img src="../images/017.png" alt="Client-Server Computing" width="450"/>
+  <img src="../../images/017.png" alt="Client-Server Computing" width="450"/>
 </p>  
 
 ### Peer-to-Peer (P2P) Computing  
@@ -663,7 +663,7 @@ Examples:
 - Even modern blockchain systems adopt P2P principles.  
 
 <p align="center">
-  <img src="../images/018.png" alt="Peer-to-Peer Computing" width="450"/>
+  <img src="../../images/018.png" alt="Peer-to-Peer Computing" width="450"/>
 </p>  
 
 ## Virtualization  
@@ -686,7 +686,7 @@ In other words, emulation is about *pretending* different hardware exists, while
 ### Visual Model
 
 <p align="center">
-  <img src="../images/019.png" alt="Hypervisors" width="450"/>
+  <img src="../../images/019.png" alt="Hypervisors" width="450"/>
 </p>  
 
 - (a) **Traditional System**: Hardware → Kernel → Processes  
@@ -712,7 +712,7 @@ The OS role here is no longer tied to a single machine — it is to **coordinate
 ### Cloud System Architecture  
 
 <p align="center">
-  <img src="../images/020.png" alt="Cloud Architecture Diagram" width="500"/>
+  <img src="../../images/020.png" alt="Cloud Architecture Diagram" width="500"/>
 </p>  
 
 1. **Internet:** Users send requests (start a VM, store a file, etc)  

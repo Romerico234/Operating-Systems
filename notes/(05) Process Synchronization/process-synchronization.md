@@ -147,4 +147,188 @@ remainder section // Non-critical work
 - The remaining code is called the remainder section
 
 
-### TBD...
+### Solution to Critical Section Problem
+
+**Mutual Exclusion:** If process $P_i$ is executing in its critical seciton, then no other processes can be executing in their critical sections.
+
+**Progress:** If no process is executing in its critical section and there exist some processes that wish to enter their critical section, then the selection of the processes that will enter the
+critical section next cannot be postponed indefinitely.
+
+**Bounded Waiting:** A bound must exist on the number of times that other processes are allowed to enter their critical sections after a process has made a request to enter its critical section and before that request is granted.
+- Assume that each process executes at a nonzero speed
+- No assumption concerning relative speed of the $n$
+processes
+
+Additionally, the OS handles the critical section problem differently depending on whether the kernel is preemptive or non-preemptive:
+- **Preemptive:** Allows preemption of process when running in kernel mode.
+- **Non-preemptive:** Runs until exits kernel mode, blocks, or voluntarily yields CPU. Essentially free of race conditions in kernel mode.
+
+---
+
+
+# TBU (TO BE UNDERSTOOD)
+
+### Peterson’s Solution
+A classic software-based solution to synchronization problem for the critical section (in the two-process case). It satisfies all three requirements: mutual exclusion, progress, and bounded waiting.  
+
+#### Shared Variables
+- **int turn** → Indicates whose turn it is between the two processes to enter the critical section  
+- **boolean flag[2]** → Marks if a process is ready to enter  
+  - `flag[i] = true` → Process $P_i$ wants to enter  
+
+#### Algorithm (for Process $P_i$)
+
+```c
+do {
+    flag[i] = true;     // P_i is ready
+    turn = j;           // Give priority to P_j
+    while (flag[j] && turn == j);  // Busy wait if P_j also wants CS
+
+    // ---- Critical Section ----
+
+    flag[i] = false;    // P_i leaves CS
+    // ---- Remainder Section ----
+} while (true);
+
+```
+
+#### Example Walkthrough
+
+Suppose we have two processes $P_0$ and $P_1$.
+
+**Both want to enter CS:**
+- $P_0$: sets `flag[0] = true`, then `turn = 1`
+- $P_1$: sets `flag[1] = true`, then `turn = 0`
+
+**Who enters first?**
+- If both set flags, the **last write to `turn` decides**.
+- Suppose `turn = 1` → $P_0$ waits (because it gave priority to $P_1$).
+- $P_1$ enters the CS.
+
+**After $P_1$ exits:**
+- $P_1$ sets `flag[1] = false`.
+- $P_0$ sees `flag[1] = false` → enters CS immediately.
+
+
+#### Why Peterson’s Works
+
+1. **Mutual Exclusion**
+   - $P_i$ enters CS only if `flag[j] = false` **OR** `turn = i`
+   - ⇒ Both cannot be in CS at the same time
+
+2. **Progress**
+   - If neither is in CS, whichever process sets its flag and gets the turn proceeds  
+   - No indefinite postponement  
+
+3. **Bounded Waiting**
+   - Once $P_i$ finishes, $P_j$ is guaranteed to enter next if waiting  
+
+
+### Test and Set
+
+A hardware solution to the synchronization problem by using an **atomic instruction**.
+
+#### Key Idea
+- A **shared lock variable** can take values:
+  - `0` → unlocked
+  - `1` → locked
+- Before entering the **critical section**, a process checks the lock:
+  - If locked → it waits (busy waiting / spinlock)
+  - If free → it acquires the lock and enters the critical section
+
+#### `test_and_set` Instruction
+
+```c
+boolean test_and_set (boolean *target) {
+    boolean rv = *target;
+    *target = TRUE;
+    return rv;
+}
+```
+
+**Properties:**
+1. Executed atomically (uninterruptible)
+- An **atomic operation** is indivisible:  
+  - It cannot be interrupted during execution  
+  - Ensures that only one process at a time can modify the lock variable 
+2. Returns the original value of target
+3. Sets the new value of target to TRUE
+
+#### Algorithm using `test_and_set()`
+```c
+do {
+   while (TestAndSet(&lock)); // busy wait if lock = TRUE
+   // critical section
+   lock = FALSE;              // release lock
+   // remainder section
+} while (TRUE);
+
+```
+
+**Correctness:**
+- Mutual Exclusion: Preserved (only one process gets lock = FALSE)
+- Bounded Waiting: ❌ Not guaranteed. A process may be repeatedly bypassed by others while waiting thus starvation is possible.
+
+
+#### Bounded-Waiting Mutual Exclusion with `test_and_set()`
+Enhanced version ensures fairness by maintaing a waiting array and passing the lock in round-robin.
+
+```c
+do {
+    waiting[i] = true;
+    key = true;
+    while (waiting[i] && key)
+        key = test_and_set(&lock);
+
+    waiting[i] = false;
+
+    /* critical section */
+
+    j = (i + 1) % n;
+    while ((j != i) && !waiting[j])
+        j = (j + 1) % n;
+
+    if (j == i)
+        lock = false;
+    else
+        waiting[j] = false;
+
+    /* remainder section */
+} while (true);
+
+```
+
+### Mutex Locks
+
+### Semaphore
+
+Disadvantages (as with the previous solutions) are the busy wait which is just running an infinte loop and wasting CPU cycles.
+
+## Deadlock and Starvation
+A **deadlock** is when two or more processes are waiting indefinitely for an event that can be caused by only one of the waiting processes.
+
+Example:
+Let $S$ and $Q$ be two semaphores initialized to 1:
+
+**Starvation** is not deadlock. Say there are 10 processes. Everytime the CPU runs the process with highest privlelige. THe process with the least privelage gets less CPU time.
+
+P1
+|
+v
+P2
+|
+v
+P10
+
+Then, P11 comes and has higher priority than P10
+
+Again this is not deadlock.
+
+# Classical Problems of Synchronization
+
+## Bounded-Buffer Problem
+There is a buffer of $n$ slots and each slots can store one unit of data. There are two processes running, namely Producer and Consumer, which are operating on the buffer. The pro
+
+## Readers and Writers Problem
+
+## Dining-Philosophers Problem

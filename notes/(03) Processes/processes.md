@@ -15,7 +15,7 @@ A process consists of several parts:
 ---
 
 <p align="center">
-  <img src="../images/042.png" alt="Process in Memory" width="350"/>
+  <img src="../../images/042.png" alt="Process in Memory" width="350"/>
 </p>
 
 # Program vs Process
@@ -36,7 +36,7 @@ A **thread*** is the unit of execution within a process.
 - These **multiple threads of control** are called **threads**.  
 
 <p align="center">
-  <img src="../images/051.png" alt="Process and Threads Relationship" width="400"/>
+  <img src="../../images/051.png" alt="Process and Threads Relationship" width="400"/>
 </p>
 
 *Note:* More to be discussed next section/chapter.
@@ -46,7 +46,7 @@ A **thread*** is the unit of execution within a process.
 # Example: Program, Process, Threads
 
 <p align="center">
-  <img src="../images/050.png" alt="Task Manager Example" width="500"/>
+  <img src="../../images/050.png" alt="Task Manager Example" width="500"/>
 </p>
 
 ---
@@ -55,7 +55,7 @@ A **thread*** is the unit of execution within a process.
 As a process executes, it transitions between states:
 
 <p align="center">
-  <img src="../images/043.png" alt="Diagram of Process State" width="550"/>
+  <img src="../../images/043.png" alt="Diagram of Process State" width="550"/>
 </p>
 
 A process begins in the **New** state, where it is created but not yet admitted. Once ALL resources are allocated, it enters the **Ready** state, waiting for CPU time.  
@@ -72,7 +72,7 @@ When scheduled, it moves to **Running**, where instructions execute on the CPU. 
 The **PCB** (also called *Task Control Block*) is the OS’s data structure for managing processes. Each process has a PCB that contains:
 
 <p align="center">
-  <img src="../images/044.png" alt="Process Control Block" width="300"/>
+  <img src="../../images/044.png" alt="Process Control Block" width="300"/>
 </p>
 
 - **Process State** (running, waiting, etc.)  
@@ -100,7 +100,7 @@ The complexity of the **OS** and the size of the **PCB** directly influence how 
 ## Example: CPU Switch from Process to Process (Single Processor CPU)
 
 <p align="center">
-  <img src="../images/045.png" alt="CPU Switch between Process Diagram" width="500"/>
+  <img src="../../images/045.png" alt="CPU Switch between Process Diagram" width="500"/>
 </p>
 
 There are two processes. $P_0$ is executing, but a higher-priority $P_1$ arrives. $P_1$ cannot run immediately — the OS must first save $P_0$’s state into $PCB_0$ and then reload the state from $PCB_1$ so $P_1$ can execute.  
@@ -131,13 +131,13 @@ The processor schedular maintes scheduling queues of processes:
 Processes migrate among these queues depending on whether they need CPU, I/O, or are waiting to be admitted.  
 
 <p align="center">
-  <img src="../images/052.png" alt="Job and Ready Queue" width="500"/>
+  <img src="../../images/052.png" alt="Job and Ready Queue" width="500"/>
 </p>
 
 ### Diagram of Scheduling
 
 <p align="center">
-  <img src="../images/053.png" alt="Process Swapping" width="500"/>
+  <img src="../../images/053.png" alt="Process Swapping" width="500"/>
 </p>
 
 Suppose process $P_0$ is running on the CPU with all its required resources. Then, a higher-priority process $P_1$ arrives. Since $P_1$ must be given the CPU, $P_0$ is **swapped out** of memory before finishing. At this point, $P_0$ is considered **partially executed**. When resources free up, $P_0$ is **swapped back in**, placed into the ready queue, and can eventually continue execution on the CPU from where it left off.  
@@ -146,7 +146,7 @@ Suppose process $P_0$ is running on the CPU with all its required resources. The
 ### More Complex Scheduling Diagram (Time Slice)
 
 <p align="center">
-  <img src="../images/054.png" alt="Process Scheduling Diagram" width="500"/>
+  <img src="../../images/054.png" alt="Process Scheduling Diagram" width="500"/>
 </p>
 
 A process begins in the **ready queue** and is dispatched to the **CPU** for execution. While running, it may issue an **I/O request**, which moves it into the **I/O queue** until the operation completes, after which it returns to the ready queue. If a process exceeds its **time slice**, it is preempted and sent back to the ready queue so another process can run. The CPU can also **fork a child**, creating a new process that enters the system. Finally, an **interrupt** may occur, temporarily halting execution until the interrupt is serviced, after which the process is placed back into the ready queue.  
@@ -178,7 +178,7 @@ A **parent process** creates one or more **child processes**, forming a **tree o
 
 ### Example: A Tree of Processes in Linux
 <p align="center">
-  <img src="../images/055.png" alt="Tree of Processes in Linux" width="450"/>
+  <img src="../../images/055.png" alt="Tree of Processes in Linux" width="450"/>
 </p>
 
 - `systemd` (**system daemon**) is the parent process of all the processes.
@@ -190,7 +190,7 @@ A child’s memory space can be:
 
 ### UNIX Examples
 <p align="center">
-  <img src="../images/056.png" alt="Fork and Exec Flow" width="500"/>
+  <img src="../../images/056.png" alt="Fork and Exec Flow" width="500"/>
 </p>
 
 - `fork()` → system call creates a new (child) process that duplicates the current process; it returns $1$ for the parent, $0$ for the child, or $-1$ for an error
@@ -424,7 +424,7 @@ Two ways cooperating processes **exchange data and information**:
 
 ### Communications Models Diagrams
 <p align="center">
-  <img src="../images/057.png" alt="Message passing vs shared memory diagrams" width="500"/>
+  <img src="../../images/057.png" alt="Message passing vs shared memory diagrams" width="500"/>
 </p>
 
 - **(a) Message passing:** processes place messages into a **kernel-managed message queue**; the OS mediates the transfer  
@@ -433,7 +433,7 @@ Two ways cooperating processes **exchange data and information**:
 ## Shared Memory
 
 <p align="center">
-  <img src="../images/058.png" alt="Shared Memory" width="300"/>
+  <img src="../../images/058.png" alt="Shared Memory" width="300"/>
 </p>
 
 To enable interprocess communication, processes can establish a **shared memory region**.  
@@ -453,7 +453,7 @@ However, by default, the OS **prevents one process from directly accessing anoth
 ## Message Passing
 
 <p align="center">
-  <img src="../images/059.png" alt="Message Passing" width="300"/>
+  <img src="../../images/059.png" alt="Message Passing" width="300"/>
 </p>
 
 **Message Passing** is a mechanism that allows processes to **communicate** and **synchronize** their actions **without sharing the same address space**.  
@@ -530,16 +530,18 @@ Buffering can be implemented in three ways:
 
 ## Sockets
 A **socket** is an **endpoint for communication** between two processes.  
-- Typically used for processes communicating over a **network**  
-- A pair of processes communicating over a network employ a pair of sockets — one for each process.  
+- You can think of it as a door through which information flows between two process, whether they are on the same computer or across the world (over a network)
+- A pair of processes communicating over a network employ a pair of sockets — one for each process
 
 A socket is identified by an:  
-- **IP Address** of the host machine  
-- **Port Number** bound to the process  
+- **IP Address** of the host machine  (`localhost` refers to the same computer)
+- **Port Number** identifies the specific application/process on the remote computer with which communication is taking place 
+
+**Analogy:** The IP address takes you to the correct building, while the port number guides you to the specific apartment inside that building.
 
 **How it works:**
 <p align="center">
-  <img src="../images/060.png" alt="Client-Server Socket Communication" width="450"/>
+  <img src="../../images/060.png" alt="Client-Server Socket Communication" width="450"/>
 </p>
 
 1. The **server process** binds to a specific port and **listens** for client requests.  
@@ -553,6 +555,160 @@ A socket is identified by an:
 > Note, ports **below 1024** are *well-known ports* for standard services. 
 
 **Example Code:** https://www.geeksforgeeks.org/cpp/socket-programming-in-cpp/
+
+### Key Socket Functions
+- `socket(domain, type, proto)` → Create an endpoint (e.g., IPv4/TCP) like buying a phone
+- `bind(fd, addr, len)` → Attach local IP:port to the socket like getting a number.
+- `listen(fd, backlog)` → Server waits for incoming calls like turning ringer on.
+- `accept(fd, addr*, len*)` → Returns a *new* connected socket per client like picking up the phone
+- `connect(fd, addr, len)` → Client initiates a connection to server’s IP:port like dialing the phone..
+- `send/recv(fd, buf, n, flags)` → Exchanging data like talking and listening on the phone.
+- `read/write(fd, buf, n)` → Alternative data exchange (treating a socket like a file).
+- `close(fd)` → Frees the descriptor; TCP does a graceful FIN/ACK. This is like hanging up the phone. 
+
+**Server:**
+```c++
+// server.cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h> // POSIX functions
+#include <arpa/inet.h> //
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+int main() {
+    int server_fd, new_socket; // file descriptors for sockets, server_fd is the listening socket, new_socket is for a connected client 
+    struct sockaddr_in address; // holds IP/port info
+    int addrlen = sizeof(address); 
+    char buffer[BUFFER_SIZE] = {0}; // creates a buffer of 1024 bytes initialized to all zeros to store incoming messages from the client
+    char *hello = (char *)"Hello from server"; // string literal to send as a response
+
+    // Create socket
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) { //AF_INET = IPv4 and SOCK_STREAM = TCP, 0 indicates to use default protocol (TCP)
+        perror("Socket failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // Define server address
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY; // Accept connections on any local IP
+    address.sin_port = htons(PORT); // Converts port number to network byte order (big-endian is standard for networking)
+
+    // Bind assigns the socket server_fd to the given IP + Port
+    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        perror("Bind failed");
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    // Listen for incoming connections, upto 3 pending connections
+    if (listen(server_fd, 3) < 0) {
+        perror("Listen failed");
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Server listening on port %d...\n", PORT);
+
+    // Accept a client connection and blocks until a client connects and creates a new socket dedicated to that client
+    if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
+                             (socklen_t *)&addrlen)) < 0) { 
+        perror("Accept failed");
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    // Read message from client upto 1024 bytes
+    ssize_t nread = read(new_socket, buffer, BUFFER_SIZE);
+    if (nread < 0) {
+        perror("Read failed");
+    } else {
+        printf("Message from client: %s\n", buffer);
+    }
+
+    // Send reply to client
+    send(new_socket, hello, strlen(hello), 0);
+    printf("Hello message sent to client\n");
+
+    close(new_socket);
+    close(server_fd);
+    return 0;
+}
+
+```
+
+**Client:**
+```c++
+// client.cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+int main() {
+    int sock = 0; // file descriptor for the client's socket
+    struct sockaddr_in serv_addr; // structure that hlds the server's IP + Port info
+    char buffer[BUFFER_SIZE] = {0}; // Space to store server's reply
+    char *hello = (char *)"Hello from client"; // message the client will send
+
+    // Create socket
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("Socket creation error\n");
+        return -1;
+    }
+
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT);
+
+    // Convert IPv4/IPv6 addresses from text to binary
+    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+        printf("Invalid address/Address not supported\n");
+        return -1;
+    }
+
+    // Connect to server
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        printf("Connection Failed\n");
+        return -1;
+    }
+
+    // Send message to server
+    send(sock, hello, strlen(hello), 0);
+    printf("Hello message sent to server\n");
+
+    // Read response
+    ssize_t nread = read(sock, buffer, BUFFER_SIZE);
+    if (nread < 0) {
+        printf("Read failed\n");
+    } else {
+        printf("Message from server: %s\n", buffer);
+    }
+
+    close(sock);
+    return 0;
+}
+```
+
+**Test Yourself:**
+```bash
+# 1. Compile the server
+g++ server.cpp -o server
+
+# 2. Compile the client
+g++ client.cpp -o client
+
+# 3. Run the server (keep this terminal open)
+./server
+
+# 4. Open another terminal window/tab and run the client
+./client
+```
 
 ## Pipes
 A **pipe** acts as a conduit that allows two processes to communicate. They are like files, but unlike files, which are stored permanently on disk, pipes exist **in memory (RAM)** and vanish when processes finish.  
@@ -571,7 +727,7 @@ If you run `dir` in Windows:
 Ordinary Pipes allow communication in standard producer-consumer style.
 
 <p align="center">
-  <img src="../images/061.png" alt="Ordinary Pipe Example" width="500"/>
+  <img src="../../images/061.png" alt="Ordinary Pipe Example" width="500"/>
 </p>
 
 - Producer writes to one end (the **write-end** of the pipe)
@@ -621,7 +777,7 @@ A **Remote Procedure Call (RPC)** is a protocol that one program can use to requ
 ### Example: RPC Execution Model
 
 <p align="center">
-  <img src="../images/062.png" alt="Execution of RPC" width="400"/>
+  <img src="../../images/062.png" alt="Execution of RPC" width="400"/>
 </p>
 
 1. **Client** invokes a procedure \(X\)  

@@ -34,7 +34,7 @@ Threads in the same process **share OS resources**:
 ## Single-threaded vs Multi-threaded Processes
 
 <p align="center">
-  <img src="../images/063.png" alt="Process in Memory" width="500"/>
+  <img src="../../images/063.png" alt="Process in Memory" width="500"/>
 </p>
 
 - A **single-threaded (heavyweight)** process has **only one thread of control**  
@@ -78,7 +78,7 @@ Key points:
 ## Example: Multithreaded Server Architecture
 
 <p align="center">
-  <img src="../images/064.png" alt="Multithreaded Server Architecture" width="400"/>
+  <img src="../../images/064.png" alt="Multithreaded Server Architecture" width="400"/>
 </p>
 
 Typical design for handling concurrent requests:  
@@ -111,7 +111,7 @@ The **program counter (PC)** holds these addresses in sequence: `001 → 002 →
 
 ## Concurrent Execution on a Single-core System
 <p align="center">
-  <img src="../images/065.png" width="500"/>
+  <img src="../../images/065.png" width="500"/>
 </p>
 
 - On a single-core system, only one thread executes at a time 
@@ -123,7 +123,7 @@ The **program counter (PC)** holds these addresses in sequence: `001 → 002 →
 
 ## Parallel Execution on a Multicore System
 <p align="center">
-  <img src="../images/066.png" width="500"/>
+  <img src="../../images/066.png" width="500"/>
 </p>
 
 - On a multicore system, each core can execute a thread simultaneously  
@@ -221,7 +221,7 @@ This program ensures all threads finish before continuing.
 3. Guarantees synchronization (no premature exit)  
 
 ### Example 3: Computing Partial Sums in Parallel
-```c
+```c++
 #include <iostream>
 #include <pthread.h>
 using namespace std;
@@ -544,7 +544,7 @@ Threads can be created both at the **user level** and **kernel level**.
 ## Many-to-One
 
 <p align="center">
-  <img src="../images/067.png" width="500"/>
+  <img src="../../images/067.png" width="500"/>
 </p>
 
 - **Mapping:** Many user threads → 1 kernel thread  
@@ -555,7 +555,7 @@ Threads can be created both at the **user level** and **kernel level**.
 ## One-to-One
 
 <p align="center">
-  <img src="../images/070.png" width="500"/>
+  <img src="../../images/070.png" width="500"/>
 </p>
 
 - **Mapping:** Each user thread → 1 kernel thread  
@@ -566,7 +566,7 @@ Threads can be created both at the **user level** and **kernel level**.
 ## Many-to-Many
 
 <p align="center">
-  <img src="../images/068.png" width="500"/>
+  <img src="../../images/068.png" width="500"/>
 </p>
 
 - **Mapping:** Many user threads ↔ Many kernel threads (flexible) 
@@ -578,7 +578,7 @@ Threads can be created both at the **user level** and **kernel level**.
 ## Two-Level Model
 
 <p align="center">
-  <img src="../images/069.png" width="500"/>
+  <img src="../../images/069.png" width="500"/>
 </p>
 
 - A **hybrid model**: like Many-to-Many but allows some user threads to be **bound** 1-to-1 with kernel threads 

@@ -29,7 +29,7 @@ The **PCB** (also called *Task Control Block*) is the OS’s data structure for 
 
 **Process States and Transitions:**
 <p align="center">
-  <img src="../../images/043.png" alt="Diagram of Process State" width="550"/>
+  <img src="../../../images/043.png" alt="Diagram of Process State" width="550"/>
 </p>
 
 ---
@@ -42,7 +42,7 @@ See answer above.
 - The saved information, known as the **context**, is stored in the **Process Control Block (PCB)**. 
 
 <p align="center">
-  <img src="../../images/045.png" alt="CPU Switch between Process Diagram" width="500"/>
+  <img src="../../../images/045.png" alt="CPU Switch between Process Diagram" width="500"/>
 </p>
 
 ---
@@ -54,7 +54,7 @@ IPC via **message passing** vs **shared memory** (two ways cooperating processes
 **Shared Memory**
 
 <p align="center">
-  <img src="../../images/058.png" alt="Shared Memory" width="300"/>
+  <img src="../../../images/058.png" alt="Shared Memory" width="300"/>
 </p>
 
 - The OS maps a shared region which (usually exists within the address space of the process that created it) visible to both processes; each reads/writes the region directly
@@ -64,7 +64,7 @@ IPC via **message passing** vs **shared memory** (two ways cooperating processes
 **Message Passing**
 
 <p align="center">
-  <img src="../../images/059.png" alt="Message Passing" width="300"/>
+  <img src="../../../images/059.png" alt="Message Passing" width="300"/>
 </p>
 
 - A mechanism that allows processes to communicate and synchronize their actions without sharing the same address space.  
@@ -98,7 +98,7 @@ If you run `dir` in Windows, the CLI (parent) process forks a child process to e
 We can make use of an **ordinary pipe** that allows communication in a standard producer–consumer style.  
 
 <p align="center">
-  <img src="../../images/061.png" alt="Ordinary Pipe Example" width="500"/>
+  <img src="../../../images/061.png" alt="Ordinary Pipe Example" width="500"/>
 </p>
 
 So, we can have it set up so:
@@ -116,7 +116,7 @@ To make this abstraction possible, the **client-side stub** serves as a local pr
 **Execution Steps of RPC:**
 
 <p align="center">
-  <img src="../../images/062.png" alt="Execution of RPC" width="400"/>
+  <img src="../../../images/062.png" alt="Execution of RPC" width="400"/>
 </p>
 
 1. **Client calls stub**: The user program invokes the procedure \(X\) via the client-side stub, just like a local call
