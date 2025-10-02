@@ -1,6 +1,5 @@
 # What is critical section and busy waiting? Provide an explanation of the three criteria used to solve the critical section problem. 
 
-
 **Critical section.** The code region where a process/thread accesses shared data; at most one process may execute its critical section at a time.
 
 **Busy waiting.** Spinning in a loop (e.g. `while (lock) ;`) until a condition becomes true; wastes CPU cycles but avoids blocking (appears in spinlocks, `test_and_set`, naive semaphores).
@@ -76,7 +75,7 @@ do {
 ## (a) Define a semaphore (1 point). Identify the problem that occurs when all philosophers attempt to pick up their left chopstick simultaneously. 
 
 
-- **Semaphore:** Shared, non-negative integer used to control the CS and manipulated only by atomic operations `wait(P)` / `signal(V)`; controls access to critical sections/resources. An atomic operations ensures it cannot be interrupted during execution and that only one process at a time can modify the lock variable.
+- **Semaphore:** Shared, non-negative integer used to control the CS and manipulated only by atomic operations `wait(P)` / `signal(V)`. An atomic operations ensures it cannot be interrupted during execution and that only one process at a time can modify the lock variable.
 
 - **Problem when all pick left simultaneously:** Everyone holds one chopstick and waits for the other which causes a **deadlock**.
 

@@ -175,8 +175,8 @@ A classic software-based solution to synchronization problem for the critical se
 
 ```c
 do {
-    flag[i] = true;     // P_i is ready
-    turn = j;           // Give priority to P_j
+    flag[i] = true; // P_i wants to enter
+    turn = j; // Let P_j have priority
     while (flag[j] && turn == j);  // Busy wait if P_j also wants CS
 
     // ---- Critical Section ----
