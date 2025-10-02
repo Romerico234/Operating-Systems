@@ -25,7 +25,9 @@ int main(void) {
 
     char buf[BUF];
     int n = recv(s, buf, BUF-1, 0);
-    if (n > 0) { buf[n] = '\0'; printf("From server: %s\n", buf); }
+    if (n > 0) { 
+        buf[n] = '\0'; printf("From server: %s\n", buf); 
+    }
 
     closesocket(s);
     WSACleanup();

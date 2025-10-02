@@ -25,7 +25,9 @@ int main(void) {
 
     char buf[BUF];
     int n = recv(cli, buf, BUF-1, 0);
-    if (n > 0) { buf[n] = '\0'; printf("From client: %s\n", buf); }
+    if (n > 0) { 
+        buf[n] = '\0'; printf("From client: %s\n", buf); 
+    }
 
     const char *msg = "Hello from server";
     send(cli, msg, (int)strlen(msg), 0);
