@@ -28,7 +28,7 @@ A **deadlock** occurs when **two or more processes are waiting indefinitely** fo
 
 ---
 
-# Question 1: Peterson’s Solution (5 points)
+# Question 1: Peterson’s Solution
 
 ## (a) Explain Peterson’s solution for the two-process critical section problem. Use pseudocode/some form of code to illustrate how it works.
 
@@ -72,7 +72,7 @@ do {
 
 # Question 2: Semaphores and the Dining Philosophers 
 
-## (a) Define a semaphore (1 point). Identify the problem that occurs when all philosophers attempt to pick up their left chopstick simultaneously. 
+## (a) Define a semaphore. Identify the problem that occurs when all philosophers attempt to pick up their left chopstick simultaneously. 
 
 
 - **Semaphore:** Shared, non-negative integer used to control the CS and manipulated only by atomic operations `wait(P)` / `signal(V)`. An atomic operations ensures it cannot be interrupted during execution and that only one process at a time can modify the lock variable.
