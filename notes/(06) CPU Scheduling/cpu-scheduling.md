@@ -111,7 +111,11 @@ Processes $P_2$ through $P_5$ come along all with the some priority greater than
 
 ### Example 1
 
-### Example 2
+<p align="center"> <img src="../../images/084.png" width="500"/> </p>
+
+### Example 2 
+
+<p align="center"> <img src="../../images/085.png" width="500"/> </p>
 
 ## Shortest-Job-First (SJF) Scheduling
 As seen in the previous examples, the average waiting time in FCFS scheduling can be quite high. To reduce this, a more efficient approach called **Shortest Job First (SJF)** scheduling was introduced.
@@ -123,7 +127,13 @@ As seen in the previous examples, the average waiting time in FCFS scheduling ca
 
 ### Example 1
 
+<p align="center"> <img src="../../images/086.png" width="500"/> </p>
+
 ### Example 2 
+
+Up to this point, we’ve assumed that all processes arrive at the same time. However, in real systems, processes often **arrive at different times**. To account for this, we introduce the concept of **arrival time**, which represents when each process enters the ready queue. Let’s see how this affects the way the CPU schedules processes.
+
+<p align="center"> <img src="../../images/087.png" width="500"/> </p>
 
 ## Priority Scheduling
 
@@ -143,6 +153,8 @@ As seen in the previous examples, the average waiting time in FCFS scheduling ca
 **Solution:** Aging &mdash; as time progres, gradually increase the priority of processes that wait in the system for a long time so that low-priority processes eventually execute. 
 
 ### Example
+
+<p align="center"> <img src="../../images/088.png" width="500"/> </p>
 
 ## Round Robin Scheduling
 
