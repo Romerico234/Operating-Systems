@@ -22,6 +22,6 @@ gcc -Wall -O2 server.c -o server.exe -lws2_32
 gcc -Wall -O2 client.c -o client.exe -lws2_32
 
 ./server.exe # In one terminal
-./server.exe # In another terminal
+./client.exe # In another terminal
 
 ```
