@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
     pthread_t cthreads[MAX_CUSTOMERS];
     int ids[MAX_CUSTOMERS];
 
-    // Create customers sequentially with random arrival times.
+    // Create customers sequentially with random arrival times
     for (int i = 0; i < M; i++) {
         sleep(random_delay());       
         ids[i] = i;                  
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
         pthread_join(cthreads[i], NULL);
     }
 
-    // When 'full' hits 0, the queue is empty; barber may still be cutting, so wait a bit.
+    // When 'full' hits 0, the queue is empty but the barber may still be cutting, so wait a bit (5 sec)
     int f;
     do {
         sem_getvalue(&full, &f);
