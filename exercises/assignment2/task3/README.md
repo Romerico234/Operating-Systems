@@ -1,5 +1,7 @@
 # How to Run
 
+This code only operates on Windows machines.
+
 ## Installation (for VSCode + MSYS2/MinGW)
 - Follow this link to set up MinGW for VSCode:  
   https://code.visualstudio.com/docs/cpp/config-mingw

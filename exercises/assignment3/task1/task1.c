@@ -10,17 +10,12 @@ void *text(void *arg);
 
 int code[] = {4, 6, 3, 1, 5, 0, 2};
 
-/* One semaphore per sentence (cases 0...6). We’ll open the first, keep the rest closed,
-   so only the correct “next” thread can print. */
 static sem_t S[7]; 
 
 int main() {
     int i;
     pthread_t tid[7];
     
-    /* Initialize the semaphore chain:
-       - S[0] starts at 1  -> thread responsible for case 0 may run immediately.
-       - S[1..6] start at 0 -> all others must wait until signaled by the previous case. */
     for (i = 0; i < 7; i++) {
         unsigned init = (i == 0) ? 1u : 0u;
         sem_init(&S[i], 0, init);
@@ -40,8 +35,6 @@ int main() {
 void *text(void *arg) {
     int n = *(int*)arg;
 
-    /* Wait until it is THIS case’s turn. All threads call this,
-       but only the one whose case matches the currently “open” semaphore proceeds. */
     sem_wait(&S[n]);
 
     switch (n) {
@@ -74,7 +67,6 @@ void *text(void *arg) {
             break;
     }
 
-    /* Hand (signal) the turn to the NEXT case (unlock its semaphore), if any. */
     if (n < 6) {
         sem_post(&S[n + 1]);        
     }                               
