@@ -156,7 +156,89 @@ Up to this point, we’ve assumed that all processes arrive at the same time. Ho
 
 <p align="center"> <img src="../../images/088.png" width="500"/> </p>
 
-## Round Robin Scheduling
+## Round Robin (RR) Scheduling
+Each process gets a **small unit of CPU time** (called the **time quantum**, `q`), usually **10–100 milliseconds**. After this time has elapsed, the process is **preempted** and **added to the end of the ready queue**.
 
-## Multilevel Queue Scheduling
+If there are `n` processes in the ready queue and the time quantum is `q`, each process gets `1/n` of the CPU time in chunks of at most `q` time units. No process waits more than **(n – 1) × q** time units.
 
+A **timer interrupt** triggers every quantum to schedule the next process.
+- **q large ⇒** behaves like FIFO (First-Come, First-Served)  
+- **q small ⇒** must still be large relative to context-switch time, otherwise overhead is too high
+
+### Fairness and Responsiveness
+- Unlike other scheduling algorithms, Round Robin ensures that every process gets an equal share of the CPU
+  - Avoids the scenario where long processes or low-priority tasks are left waiting for a long time
+  - Ensures improved responsiveness — an essential feature in time-sharing systems
+
+- **Avoiding Starvation:**  In Priority Scheduling, low-priority processes may suffer from starvation. Round Robin avoids this problem.
+
+### Example
+
+<p align="center"> <img src="../../images/089.png" width="500"/> </p>
+
+- **Turnaround Time = Completion Time - Arrival Time**
+- **Waiting Time = Turnaroundtime - Burst Time**
+
+### Time Quantam and Context Switch Time
+
+The **time quantum** (`q`) in RR scheduling determines how long each process runs before the CPU switches to the next one. But switching between processes isn’t free and each switch introduces a **context switch overhead** (time needed to save the current process state and load the next one).
+y.
+
+Let's look at the following example:
+
+<p align="center"> <img src="../../images/092.png" width="500"/> </p>
+
+Here, the total process time is fixed at $10ms$, but we vary the quantum.
+
+1. **Quantum = $12ms$ (no preemption):**  
+   - The process completes before its time slice expires  
+   - Acts like FCFS scheduling  
+   - 0 context switches, no overhead, but poor responsiveness if other processes are waiting
+
+2. **Quantum = $6ms$ (moderate preemption):**  
+   - The process executes for 6 units, then the CPU switches once to handle another process  
+   - Only 1 context switch, meaning some responsiveness with minimal overhead  
+   - This is typically a balanced configuration
+
+3. **Quantum = $1ms$ (frequent preemption):**  
+   - The process is interrupted every unit of time → 9 context switches  
+   - This gives excellent responsiveness but terrible efficiency as CPU time is wasted on switching instead of actual work
+
+Round Robin scheduling typically has a higher average turnaround time than SJF but provides better response time. The time quantum (`q`) should be large compared to the context switch time to minimize overhead, with `q` usually ranging from $10ms$ to $100ms$, while context switches typically take less than $10µs$.
+
+## Multilevel Queue Scheduling (MLQ)
+The **ready queue** is partitioned into **separate queues** e.g.:
+  - **foreground** (interactive)
+  - **background** (batch)
+
+Foreground processes and background processes have:
+ - Different response-time requirements  
+- Different sci heduling needs
+
+Each queue has its **own scheduling algorithm**:
+  - **foreground – Round Robin (RR)**
+  - **background – First-Come, First-Served (FCFS)**
+
+The scheduling will take place **within** and **among** the queues.
+
+### Scheduling Between / Among Queues
+Again, scheduling must be done between/among the queues:
+  - **Fixed priority scheduling** (i.e. serve all from foreground, then from background). → Possibility of starvation
+  - **Time slice** – each queue gets a certain amount of CPU time which it can schedule among its processes (e.g. 80% to foreground (RR), 20% to background (FCFS))
+
+### Example of Queue Structure
+<p align="center"> <img src="../../images/090.png" width="500"/> </p>
+
+## Multilevel Feedback Queue (MLFQ)
+The **Multilevel Feedback Queue** improves on the basic MLQ by introducing flexibility as processes can move between various queues (aging can be implemented this way).
+
+A **multilevel-feedback-queue scheduler** is defined by the following parameters:
+  - Number of queues
+  - Scheduling algorithms for each queue
+  - Method used to determine when to upgrade a process
+  - Method used to determine when to demote a process
+  - Method used to determine which queue a process will enter when it needs service
+
+### Example of Multilevel Feedback Queue
+
+<p align="center"> <img src="../../images/091.png" width="500"/> </p>
