@@ -9,6 +9,9 @@ Consider a set of processes with arrival times and burst times as follows:
 
 Calculate the waiting time and turnaround time for each process using FCFS scheduling.
 
+**Solution:**
+<p align="center"> <img src="../../images/094.jpg" width="300"/> </p>
+
 ---
 
 # Question 2
@@ -22,6 +25,9 @@ For a round-robin scheduling with time quantum of 4 milliseconds, and the follow
 | P4 | 3 | 2 |
 
 Calculate the waiting time and turnaround time for each process.
+
+**Solution:**
+<p align="center"> <img src="../../images/095.jpg" width="300"/> </p>
 
 ---
 
@@ -37,6 +43,9 @@ Using a non-preemptive priority scheduling algorithm, consider the following pro
 
 Calculate the waiting time and turnaround time for each process.
 
+**Solution:**
+<p align="center"> <img src="../../images/096.jpg" width="300"/> </p>
+
 ---
 
 # Question 4
@@ -50,4 +59,7 @@ For a set of processes with arrival times and burst times as follows:
 | P4 | 3 | 3 |
 
 Calculate the waiting time and turnaround time for each process using preemptive SJF scheduling.
+
+**Solution:**
+<p align="center"> <img src="../../images/097.jpg" width="300"/> </p>
 
