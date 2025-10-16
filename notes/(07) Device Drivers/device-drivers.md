@@ -39,6 +39,8 @@ Hardware devices like keyboard, mouse, display, disk, network card all use use d
 
 Device drivers can be categorized based on how they handle data transfer:
 
+> On Unix systems, devices are exposed as special files under `/dev` directory. Listing `/dev` shows the device nodes managed by drivers on the system.
+
 ### Character Devices
 
 A **character device** transfers data one byte at a time in a sequential stream.
@@ -178,4 +180,4 @@ MODULE_LICENSE("GPL");
 - **`register_chrdev()`**: Registers a character device with the kernel
 - **Major Number (240)**: Identifies the device type
 - **Device Name ("mydriver")**: Human-readable identifier
-- **File Operations (&fops)**: Pointer to function implementationsß
+- **File Operations (&fops)**: Pointer to function implementations 

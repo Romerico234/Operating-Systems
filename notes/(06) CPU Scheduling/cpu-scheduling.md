@@ -135,6 +135,10 @@ Up to this point, we’ve assumed that all processes arrive at the same time. Ho
 
 <p align="center"> <img src="../../images/087.png" width="500"/> </p>
 
+### Example 3
+
+<p align="center"> <img src="../../images/098.png" width="500"/> </p>
+
 ## Priority Scheduling
 
 **Key Idea:**
@@ -172,12 +176,16 @@ A **timer interrupt** triggers every quantum to schedule the next process.
 
 - **Avoiding Starvation:**  In Priority Scheduling, low-priority processes may suffer from starvation. Round Robin avoids this problem.
 
-### Example
+### Example 1
 
 <p align="center"> <img src="../../images/089.png" width="500"/> </p>
 
 - **Turnaround Time = Completion Time - Arrival Time**
 - **Waiting Time = Turnaroundtime - Burst Time**
+
+### Example 2
+
+<p align="center"> <img src="../../images/099.png" width="500"
 
 ### Time Quantam and Context Switch Time
 
