@@ -152,7 +152,7 @@ Up to this point, we’ve assumed that all processes arrive at the same time. Ho
 
 > SJF is essentially a special case of Priority Scheduling. In SJF, the priority is the **inverse of the predicted next CPU burst time** (shorter jobs are treated as higher priority).
 
-**Problem:** Starvation as kow-priority processes may never get CPU time if higher-priority processes keep arriving.  
+**Problem:** Starvation as low-priority processes may never get CPU time if higher-priority processes keep arriving.  
 
 **Solution:** Aging &mdash; as time progres, gradually increase the priority of processes that wait in the system for a long time so that low-priority processes eventually execute. 
 
