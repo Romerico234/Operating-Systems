@@ -1,0 +1,85 @@
+n = 5:
+Romerico David: Assignment 4: # of threads = 5
+Philosopher 0: thinking
+Philosopher 2: thinking
+Philosopher 4: thinking
+Philosopher 1: thinking
+Philosopher 3: thinking
+Philosopher 4: starts eating
+Philosopher 2: starts eating
+Philosopher 2: ends eating
+Philosopher 1: starts eating
+Philosopher 4: ends eating
+Philosopher 3: starts eating
+Philosopher 1: ends eating
+Philosopher 0: starts eating
+Philosopher 0: ends eating
+Philosopher 3: ends eating
+5 threads have been completed/joined successfully!
+
+n = 20:
+Romerico David: Assignment 4: # of threads = 20
+Philosopher 0: thinking
+Philosopher 1: thinking
+Philosopher 2: thinking
+Philosopher 3: thinking
+Philosopher 4: thinking
+Philosopher 5: thinking
+Philosopher 6: thinking
+Philosopher 7: thinking
+Philosopher 8: thinking
+Philosopher 9: thinking
+Philosopher 10: thinking
+Philosopher 11: thinking
+Philosopher 12: thinking
+Philosopher 13: thinking
+Philosopher 14: thinking
+Philosopher 15: thinking
+Philosopher 16: thinking
+Philosopher 17: thinking
+Philosopher 18: thinking
+Philosopher 19: thinking
+Philosopher 11: starts eating
+Philosopher 16: starts eating
+Philosopher 13: starts eating
+Philosopher 13: ends eating
+Philosopher 8: starts eating
+Philosopher 18: starts eating
+Philosopher 11: ends eating
+Philosopher 12: starts eating
+Philosopher 14: starts eating
+Philosopher 2: starts eating
+Philosopher 4: starts eating
+Philosopher 10: starts eating
+Philosopher 0: starts eating
+Philosopher 6: starts eating
+Philosopher 16: ends eating
+Philosopher 18: ends eating
+Philosopher 17: starts eating
+Philosopher 6: ends eating
+Philosopher 4: ends eating
+Philosopher 5: starts eating
+Philosopher 17: ends eating
+Philosopher 2: ends eating
+Philosopher 3: starts eating
+Philosopher 12: ends eating
+Philosopher 3: ends eating
+Philosopher 8: ends eating
+Philosopher 7: starts eating
+Philosopher 0: ends eating
+Philosopher 1: starts eating
+Philosopher 19: starts eating
+Philosopher 19: ends eating
+Philosopher 14: ends eating
+Philosopher 15: starts eating
+Philosopher 10: ends eating
+Philosopher 9: starts eating
+Philosopher 9: ends eating
+Philosopher 1: ends eating
+Philosopher 7: ends eating
+Philosopher 5: ends eating
+Philosopher 15: ends eating
+20 threads have been completed/joined successfully!
+
+
+Additionally, no deadlock occured after I executed the program 10 times. 

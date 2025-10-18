@@ -7,6 +7,8 @@
 
 #define MAX_THREADS 100
 
+static const char *NAME = "Romerico David";
+
 void createPhilosophers(int nthreads);
 void *philosopherThread(void *arg);
 void thinking(int threadIndex);
@@ -47,7 +49,9 @@ int main(int argc, char **argv) {
             return 1;
         }
     }
-
+    
+    printf("%s: Assignment 4: # of threads = %d\n", NAME, N);
+    
     createPhilosophers(N);
 
     for (int i = 0; i < N; i++) {
