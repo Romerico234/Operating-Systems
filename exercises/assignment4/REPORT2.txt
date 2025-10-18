@@ -1,3 +1,8 @@
+Section: Part 2
+
+After executing the program 10 times, no deadlock occured (as expected). 
+
+Test Results:
 n = 5:
 Romerico David: Assignment 4: # of threads = 5
 Philosopher 0: thinking
@@ -80,6 +85,3 @@ Philosopher 7: ends eating
 Philosopher 5: ends eating
 Philosopher 15: ends eating
 20 threads have been completed/joined successfully!
-
-
-Additionally, no deadlock occured after I executed the program 10 times. 

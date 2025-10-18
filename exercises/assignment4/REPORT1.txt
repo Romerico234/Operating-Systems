@@ -1,3 +1,10 @@
+
+Section: Part 1
+Explanation: pthreads are created using the createPhilosophers() function which each execute philosopherThread() and prints their index. pthread_join() is used in a loop to ensure that the main thread waits for all
+philosopher threads to finish before exiting. This guarantees that no threads are left running when the program terminates and ensures synchronization between the main thread and child threads.
+
+
+Test Results:
 n = 5:
 Romerico David: Assignment 4: # of threads = 5
 This is philosopher 0
@@ -30,7 +37,3 @@ This is philosopher 17
 This is philosopher 18
 This is philosopher 19
 20 threads have been completed/joined successfully!
-
-
-Explanation: pthreads are created using the createPhilosophers() function which each execute philosopherThread() and prints their index. pthread_join() is used in a loop to ensure that the main thread waits for all
-philosopher threads to finish before exiting. This guarantees that no threads are left running when the program terminates and ensures synchronization between the main thread and child threads.
