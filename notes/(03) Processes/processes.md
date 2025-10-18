@@ -607,6 +607,14 @@ Ordinary Pipes allow communication in standard producer-consumer style.
 ## Remote Procedure Calls (RPCs)
 A **Remote Procedure Call (RPC)** is a protocol that one program can use to request a service from another program located in another computer network without having to understand the network's details. It abstracts procedure calls between processes on networked systems (using ports for service differentiation).
 
+### Procedure Call vs RPC
+
+<p align="center">
+  <img src="../../images/100.png" alt="Procedure Call vs RPC" width="500"/>
+</p>
+
+In traditional programming, we call functions locally, passing arguments and waiting for return values. However, RPC extends this concept across network boundaries, allowing us to invoke functions that reside on different machines. RPC abstracts away the network complexity and thus makes remote function calls appear identical to local procedure calls from the programmer's perspective. 
+
 ### Characteristics
 - RPC is conceptually similar to IPC but works across separate systems.  
 - Communication uses a **message-based communication scheme** rather than direct memory access  
